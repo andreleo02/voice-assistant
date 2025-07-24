@@ -1,10 +1,15 @@
+import tempfile
+import scipy.io.wavfile
 import sounddevice as sd
-from scipy.io.wavfile import write
 
-def record_audio(filename="input.wav", duration=5, fs=16000):
-    print("Recording...")
-    audio = sd.rec(int(duration * fs), samplerate=fs, channels=1)
+def record_audio(duration=10, samplerate=16000):
+    print("Listening...")
+    audio = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='int16')
     sd.wait()
-    write(filename, fs, audio)
-    print(f"Saved to {filename}")
-    return filename
+    return save_temp_wav(audio.flatten(), samplerate)
+
+def save_temp_wav(data, samplerate):
+    tmpfile = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
+    scipy.io.wavfile.write(tmpfile.name, samplerate, data)
+    print(tmpfile.name)
+    return tmpfile.name
