@@ -17,10 +17,11 @@ def speak(text, output_path="response.wav"):
         progress_bar=False,
         gpu=False,
     )
+    if os.path.exists(output_path):
+        os.remove(output_path)
     tts.tts_to_file(text=text, file_path=output_path)
-    print(f"Saved synthesized audio to {output_path}")
 
-    print("Speaking...")
+    print("SPEAKING ...")
     if platform.system() == "Darwin":
         os.system(f"afplay {output_path}")
     elif platform.system() == "Linux":

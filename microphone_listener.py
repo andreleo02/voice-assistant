@@ -3,7 +3,6 @@ import scipy.io.wavfile
 import sounddevice as sd
 
 def record_audio(duration=10, samplerate=16000):
-    print("Listening...")
     audio = sd.rec(int(duration * samplerate), samplerate=samplerate, channels=1, dtype='int16')
     sd.wait()
     return save_temp_wav(audio.flatten(), samplerate)

@@ -9,7 +9,6 @@ llm = Llama(
 
 def generate_response(prompt: str, system_message: str = "You are a helpful assistant.") -> str:
     full_prompt = f"<|system|>\n{system_message}</s>\n<|user|>\n{prompt}</s>\n<|assistant|>"
-    print("Thinking...")
     output = llm(
         full_prompt,
         max_tokens=256,
