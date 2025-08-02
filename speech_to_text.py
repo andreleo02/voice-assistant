@@ -1,6 +1,6 @@
 from pywhispercpp.model import Model
 
-WAKE_WORD = "computer"
+WAKE_WORD = "hey"
 whisper = Model("whisper_models/ggml-tiny.en.bin")
 
 def transcribe(wav_path):

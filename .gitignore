@@ -209,6 +209,7 @@ __marimo__/
 llm_models/
 whisper_models/
 tts_models/
+outputs/
 
 input.wav
 response.wav
