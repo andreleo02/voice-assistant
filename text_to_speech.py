@@ -3,6 +3,7 @@ import time
 import platform
 from TTS.api import TTS
 from audio_file_queue import audio_queue, audio_done_event
+from playsound3 import playsound
 
 model_dir = "tts_models"
 model_path = os.path.join(model_dir, "tts_models--en--ljspeech--tacotron2-DDC", "model.pth")
@@ -37,19 +38,38 @@ def play_wav_blocking(path):
         raise RuntimeError("Unsupported platform for audio playback")
 
 def audio_player():
+    print("[AudioPlayer] Started")
     while True:
-        file = audio_queue.get()
-        if file is None:
-            time.sleep(0.3)
-            continue
         try:
-            print("SPEAKING ...")
+            print("[AudioPlayer] Waiting for file...")
+            file = audio_queue.get()
+            print(f"[AudioPlayer] Got file: {file}")
+
+            if file is None:
+                print("[AudioPlayer] Got None, sleeping...")
+                time.sleep(0.1)
+                continue
+
             audio_done_event.clear()
-            play_wav_blocking(file)
-        finally:
+
+            print(f"[AudioPlayer] Playing: {file}")
+            try:
+                for _ in range(3):
+                    playsound(file)
+            except Exception as e:
+                print(f"[AudioPlayer] Playback error: {e}")
+
             try:
                 os.remove(file)
+                print(f"[AudioPlayer] Deleted file: {file}")
             except Exception as e:
-                print(f"Failed to delete audio file {file}: {e}")
+                print(f"[AudioPlayer] Failed to delete {file}: {e}")
+
             if audio_queue.empty():
+                print("[AudioPlayer] Queue empty, setting event.")
                 audio_done_event.set()
+
+        except Exception as e:
+            print(f"[AudioPlayer] Top-level exception: {e}")
+            audio_done_event.set()
+        time.sleep(0.5)

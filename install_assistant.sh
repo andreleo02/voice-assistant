@@ -12,7 +12,7 @@ pip install --upgrade pip
 
 # --- Install required Python packages ---
 echo "Installing Python dependencies..."
-pip install llama-cpp-python coqui-tts pywhispercpp sounddevice scipy numpy huggingface-hub
+pip install llama-cpp-python coqui-tts pywhispercpp sounddevice scipy numpy huggingface-hub playsound3
 
 # --- Download Whisper Tiny English model ---
 WHISPER_MODEL="whisper_models/ggml-tiny.en.bin"

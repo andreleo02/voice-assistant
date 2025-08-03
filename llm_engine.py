@@ -36,3 +36,4 @@ def stream_and_speak(prompt: str):
         print(f"Synthesizing: {phrase}")
         audio_path = synthesize_text(phrase)
         audio_queue.put(audio_path)
+        print(f"queue size: {audio_queue.qsize()}")
