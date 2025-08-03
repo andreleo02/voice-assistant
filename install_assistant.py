@@ -1,5 +1,10 @@
+import os
 import subprocess
 from pathlib import Path
+
+os.environ["CMAKE_GENERATOR"] = "NMake Makefiles"
+os.environ["DISTUTILS_USE_SDK"] = "1"
+os.environ["USE_VS2022"] = "1"
 
 def run(command, check=True):
     print(f"Running: {command}")
@@ -29,16 +34,17 @@ if not venv_path.exists():
     print("Creating virtual environment 'venv'...")
     run("python3 -m venv venv")
 
-activate_script = venv_path / "bin" / "activate"
-run(f"source {activate_script} && pip install --upgrade pip", check=False)
+activate_script = venv_path / "Scripts" / "activate.bat"
+pip_script = venv_path / "Scripts" / "python.exe"
+run(f"{activate_script} && {pip_script} -m pip install --upgrade pip", check=False)
 
 # --- Install required packages ---
 packages = [
     "llama-cpp-python", "coqui-tts", "pywhispercpp", "sounddevice",
-    "scipy", "numpy", "huggingface-hub", "playsound3"
+    "scipy", "numpy", "huggingface_hub", "playsound3"
 ]
 print("Installing Python dependencies...")
-run(f"source {activate_script} && pip install " + " ".join(packages), check=False)
+run(f"{activate_script} && {pip_script} -m pip install " + " ".join(packages), check=False)
 
 # --- Whisper Tiny Model ---
 whisper_model = Path("whisper_models/ggml-tiny.en.bin")
