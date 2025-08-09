@@ -32,7 +32,7 @@ def audio_player():
             file = audio_queue.get()
 
             if file is None:
-                time.sleep(0.1)
+                time.sleep(0.3)
                 continue
 
             audio_done_event.clear()
