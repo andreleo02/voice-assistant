@@ -31,6 +31,5 @@ if __name__ == "__main__":
         print("WAITING FOR TRIGGER WORD ...")
         file = record_audio(duration=3)
         if detect_wake_word(file):
-            print("Wake word detected! Start conversation ...")
             run_conversation()
         time.sleep(0.5)

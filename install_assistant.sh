@@ -34,7 +34,7 @@ else
     python3 llm_model_downloader.py
 fi
 
-TTS_MODELS_DIR="tts_models"
+TTS_MODELS_DIR="tts_models/tts"
 TTS_MODEL="tts_models--en--ljspeech--tacotron2-DDC"
 VOCODER_MODEL="vocoder_models--en--ljspeech--hifigan_v2"
 if [ -d "$TTS_MODELS_DIR/$TTS_MODEL" ]; then
