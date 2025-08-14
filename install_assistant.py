@@ -7,7 +7,7 @@ os.environ["DISTUTILS_USE_SDK"] = "1"
 os.environ["USE_VS2022"] = "1"
 os.environ["TTS_HOME"] = str((Path.cwd() / "tts_models").resolve())
 
-def run(command, check=True):
+def run(command, check=False):
     print(f"Running: {command}")
     subprocess.run(command, shell=True, check=check)
 
@@ -16,16 +16,6 @@ def download_file(url, dest_path):
         print(f"Downloading {dest_path.name}...")
         dest_path.parent.mkdir(parents=True, exist_ok=True)
         run(f"curl -L -o {dest_path} {url}")
-    else:
-        print(f"File already exists: {dest_path}")
-
-def create_symlink(source, target):
-    if not target.exists():
-        target.parent.mkdir(parents=True, exist_ok=True)
-        print(f"Creating symlink from {source} to {target}")
-        target.symlink_to(source)
-    else:
-        print(f"Symlink already exists: {target}")
 
 print("Setting up offline voice assistant environment...")
 
@@ -37,7 +27,10 @@ if not venv_path.exists():
 
 venv_python = venv_path / "Scripts" / "python.exe"
 activate_script = venv_path / "Scripts" / "activate.bat"
-run(f"{activate_script} && {venv_python} -m pip install --upgrade pip", check=False)
+run(f"{activate_script} && {venv_python} -m pip install --upgrade pip")
+
+# --- Install only torch (without GPU) ---
+run(f"{activate_script} && {venv_python} -m pip install torch --index-url https://download.pytorch.org/whl/cpu")
 
 # --- Install required packages ---
 packages = [
@@ -45,7 +38,7 @@ packages = [
     "scipy", "numpy", "huggingface_hub", "playsound3"
 ]
 print("Installing Python dependencies...")
-run(f"{activate_script} && {venv_python} -m pip install " + " ".join(packages), check=False)
+run(f"{activate_script} && {venv_python} -m pip install " + " ".join(packages))
 
 # --- Whisper Tiny Model ---
 whisper_model = Path("whisper_models/ggml-tiny.en.bin")
