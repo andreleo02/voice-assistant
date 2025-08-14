@@ -6,7 +6,7 @@ def download_models(save_dir="tts_models"):
     manager = ModelManager()
 
     model_name = "tts_models/en/ljspeech/tacotron2-DDC"
-    model_path = manager.download_model(model_name)
+    manager.download_model(model_name)
 
     model_name = "vocoder_models/en/ljspeech/hifigan_v2"
     manager.download_model(model_name)
