@@ -29,7 +29,7 @@ if __name__ == "__main__":
     while True:
         audio_done_event.wait()
         print("WAITING FOR TRIGGER WORD ...")
-        file = record_audio(duration=3)
+        file = record_audio(duration=2)
         if detect_wake_word(file):
             run_conversation()
-        time.sleep(0.5)
+        time.sleep(0.2)
