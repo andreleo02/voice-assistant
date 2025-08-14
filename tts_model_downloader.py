@@ -12,7 +12,6 @@ def download_models(save_dir="tts_models"):
     manager.download_model(model_name)
 
     print("Coqui TTS model and vocoder downloaded.")
-    print("Model Path:", model_path)
 
 if __name__ == "__main__":
     download_models()
