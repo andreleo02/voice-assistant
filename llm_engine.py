@@ -1,26 +1,22 @@
-from llama_cpp import Llama
+import time
 from text_to_speech import synthesize_text
 from audio_file_queue import audio_queue
-
-llm = Llama(
-    model_path="./llm_models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
-    n_ctx=2048,
-    n_threads=8,
-    n_gpu_layers=0
-)
+from models_loader import llm_model
 
 MAX_TOKENS = 256
 MIN_BUFFER_LENGHT = 20
 
 def generate_response(prompt: str, system_message: str = "You are a helpful assistant."):
+    start_time = time.time()
     full_prompt = f"<|system|>\n{system_message}</s>\n<|user|>\n{prompt}</s>\n<|assistant|>"
-    stream = llm(
+    stream = llm_model(
         full_prompt,
         max_tokens=MAX_TOKENS,
         stop=["</s>", "<|user|>"],
         echo=False,
         stream=True
     )
+    print(f"LLM responded in {(time.time() - start_time) * 1000:.2f}ms")
 
     buffer = ""
     for chunk in stream:
