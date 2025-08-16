@@ -49,7 +49,6 @@ def audio_player():
                 print(f"[AudioPlayer] Failed to delete {file}: {e}")
 
             if audio_queue.empty():
-                print("[AudioPlayer] Queue empty, setting event.")
                 audio_done_event.set()
 
         except Exception as e:
