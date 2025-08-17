@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 os.environ["TTS_HOME"] = str((Path.cwd() / "tts_models").resolve())
-import time
 import threading
 from text_to_speech import audio_player
 from llm_engine import stream_and_speak
