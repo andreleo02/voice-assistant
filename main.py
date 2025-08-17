@@ -33,4 +33,3 @@ if __name__ == "__main__":
         if detect_wake_word(file):
             run_conversation()
             print("WAITING FOR TRIGGER WORD ...")
-        time.sleep(0.2)

@@ -1,6 +1,9 @@
 import os
+import time
 import subprocess
 from pathlib import Path
+
+start_time = time.time()
 
 os.environ["CMAKE_GENERATOR"] = "NMake Makefiles"
 os.environ["DISTUTILS_USE_SDK"] = "1"
@@ -61,5 +64,5 @@ if not tts_model.exists():
     print("Downloading TTS models via Python...")
     run(f"{venv_python} tts_model_downloader.py")
 
-print(r"Setup complete. To activate the environment, run: venv\Scripts\activate")
-print(r"To launch the application, run: python main.py")
+print(rf"Setup complete in {(time.time() - start_time) * 1000:.2f}ms.")
+print(r"To launch the application, activate the environment with venv\Scripts\activate and run: python main.py")
