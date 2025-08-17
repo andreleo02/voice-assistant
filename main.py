@@ -12,7 +12,7 @@ def run_conversation():
     print("LISTENING ...")
 
     # setup a microphone input to listen for user queries
-    audio_file = record_audio(duration=5)
+    audio_file = record_audio()
 
     print("THINKING ...")
 
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     print("ASSISTANT READY. WAITING FOR TRIGGER WORD ...")
     while True:
         audio_done_event.wait()
-        file = record_audio(duration=2)
+        file = record_audio()
         if detect_wake_word(file):
             run_conversation()
             print("WAITING FOR TRIGGER WORD ...")
