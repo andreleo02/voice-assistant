@@ -1,14 +1,17 @@
 import os
-from pathlib import Path
-os.environ["TTS_HOME"] = str((Path.cwd() / "tts_models").resolve())
+import time
 import threading
+from pathlib import Path
 from text_to_speech import audio_player
 from llm_engine import stream_and_speak
 from microphone_listener import record_audio
 from audio_file_queue import audio_done_event
 from speech_to_text import transcribe, detect_wake_word
 
+os.environ["TTS_HOME"] = str((Path.cwd() / "tts_models").resolve())
+
 def run_conversation():
+    start_time = time.time()
     print("LISTENING ...")
 
     # setup a microphone input to listen for user queries
@@ -21,6 +24,7 @@ def run_conversation():
 
     # run a small LLM locally to generate a text response based on the input
     stream_and_speak(prompt=transcription)
+    print(f"Full conversation run in {(time.time() - start_time) * 1000:.2f}ms")
 
 # coordinate the entire process through a controller script
 if __name__ == "__main__":

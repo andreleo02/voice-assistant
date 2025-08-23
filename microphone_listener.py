@@ -8,16 +8,13 @@ def record_audio(samplerate=16000):
     """
     r = sr.Recognizer()
     with sr.Microphone(sample_rate=samplerate) as source:
-        # Optional: auto-calibrate mic noise floor
         r.adjust_for_ambient_noise(source, duration=0.8)
-        # Tune silence detection if needed
-        r.pause_threshold = 0.8       # seconds of silence to stop
-        r.energy_threshold = r.energy_threshold  # keep what was learned
+        r.pause_threshold = 0.8
+        r.energy_threshold = r.energy_threshold
 
         print("Listening... stop speaking to end")
-        audio = r.listen(source)  # blocks until silence
+        audio = r.listen(source)
 
-    # Save as 16-bit PCM WAV at desired samplerate
     wav_bytes = audio.get_wav_data(convert_rate=samplerate, convert_width=2)
     return _save_temp_wav_bytes(wav_bytes)
 
