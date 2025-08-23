@@ -7,6 +7,10 @@ MAX_TOKENS = 256
 MIN_BUFFER_LENGHT = 20
 
 def generate_response(prompt: str, system_message: str = "You are a helpful assistant."):
+    """
+    Prompt submission to LLM model (TinyLlama) and
+    stream response in chunks
+    """
     start_time = time.time()
     full_prompt = f"<|system|>\n{system_message}</s>\n<|user|>\n{prompt}</s>\n<|assistant|>"
     stream = llm_model(
@@ -16,7 +20,7 @@ def generate_response(prompt: str, system_message: str = "You are a helpful assi
         echo=False,
         stream=True
     )
-    print(f"LLM responded in {(time.time() - start_time) * 1000:.2f}ms")
+    print(f"[LLM] LLM responded in {(time.time() - start_time) * 1000:.2f}ms")
 
     buffer = ""
     for chunk in stream:
@@ -29,6 +33,11 @@ def generate_response(prompt: str, system_message: str = "You are a helpful assi
         yield buffer.strip()
 
 def stream_and_speak(prompt: str):
+    """
+    Calls the generate_response(...) method and receives the
+    response in chunks, that are synthesized and added to the
+    audio queue
+    """
     for phrase in generate_response(prompt):
         if not phrase:
             continue
