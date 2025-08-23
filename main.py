@@ -10,12 +10,17 @@ from speech_to_text import transcribe, detect_wake_word
 os.environ["TTS_HOME"] = str((Path.cwd() / "tts_models").resolve())
 
 def run_conversation():
-    print("LISTENING ...")
+    """
+    Executes the conversation flow. (1) Audio prompt recording,
+    (2) speech-to-text conversion, (3) LLM prompt submission and response streaming,
+    (4) text-to-speech response conversion.
+    """
+    print("[MAIN] LISTENING ...")
 
     # setup a microphone input to listen for user queries
     audio_file = record_audio()
 
-    print("THINKING ...")
+    print("[MAIN] THINKING ...")
 
     # convert the audio to a prompt (STT using Whisper)
     transcription = transcribe(wav_path=audio_file)
@@ -26,10 +31,10 @@ def run_conversation():
 # coordinate the entire process through a controller script
 if __name__ == "__main__":
     threading.Thread(target=audio_player, daemon=True).start()
-    print("ASSISTANT READY. WAITING FOR TRIGGER WORD ...")
+    print("[MAIN] ASSISTANT READY. WAITING FOR TRIGGER WORD ...")
     while True:
         audio_done_event.wait()
         file = record_audio()
         if detect_wake_word(file):
             run_conversation()
-            print("WAITING FOR TRIGGER WORD ...")
+            print("[MAIN] WAITING FOR TRIGGER WORD ...")
