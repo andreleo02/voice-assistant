@@ -1,7 +1,7 @@
 import time
 from models_loader import stt_model
 
-WAKE_WORD = "hey"
+WAKE_WORD = "assistant"
 
 def transcribe(wav_path):
     """

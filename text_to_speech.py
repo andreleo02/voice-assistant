@@ -25,7 +25,7 @@ def audio_player():
         try:
             file = audio_queue.get()
             if file is None:
-                time.sleep(0.3)
+                time.sleep(0.5)
                 continue
             audio_done_event.clear()
             try:
@@ -42,4 +42,4 @@ def audio_player():
         except Exception as e:
             print(f"[AUDIO PLAYER] Top-level exception: {e}")
             audio_done_event.set()
-        time.sleep(0.5)
+        time.sleep(0.3)

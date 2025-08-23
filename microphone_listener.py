@@ -8,7 +8,7 @@ def record_audio(samplerate=16000):
     """
     r = sr.Recognizer()
     with sr.Microphone(sample_rate=samplerate) as source:
-        r.adjust_for_ambient_noise(source, duration=0.8)
+        r.adjust_for_ambient_noise(source, duration=1.0)
         r.pause_threshold = 0.8
         r.energy_threshold = r.energy_threshold
 

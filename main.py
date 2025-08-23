@@ -31,10 +31,10 @@ def run_conversation():
 # coordinate the entire process through a controller script
 if __name__ == "__main__":
     threading.Thread(target=audio_player, daemon=True).start()
-    print("[MAIN] ASSISTANT READY. WAITING FOR TRIGGER WORD ...")
+    print("[MAIN] ASSISTANT SETUP COMPLETED.")
     while True:
         audio_done_event.wait()
+        print("[MAIN] WAITING FOR TRIGGER WORD ...")
         file = record_audio()
         if detect_wake_word(file):
             run_conversation()
-            print("[MAIN] WAITING FOR TRIGGER WORD ...")
