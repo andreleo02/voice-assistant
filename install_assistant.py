@@ -37,7 +37,7 @@ run(f"{activate_script} && {venv_python} -m pip install torch --index-url https:
 
 # --- Install required packages ---
 packages = [
-    "llama-cpp-python", "coqui-tts", "pywhispercpp", "sounddevice",
+    "llama-cpp-python", "coqui-tts", "pywhispercpp", "playsound3",
     "numpy", "huggingface_hub", "SpeechRecognition[audio]"
 ]
 print("Installing Python dependencies...")
@@ -58,8 +58,8 @@ if not llama_model.exists():
 
 # --- TTS Models ---
 tts_model_dir = Path("tts_models")
-tts_model = tts_model_dir / "tts_models--en--ljspeech--tacotron2-DDC"
-vocoder_model = tts_model_dir / "vocoder_models--en--ljspeech--hifigan_v2"
+tts_model = tts_model_dir / "tts" / "tts_models--en--ljspeech--tacotron2-DDC"
+vocoder_model = tts_model_dir / "tts" / "vocoder_models--en--ljspeech--hifigan_v2"
 if not tts_model.exists():
     print("Downloading TTS models via Python...")
     run(f"{venv_python} tts_model_downloader.py")

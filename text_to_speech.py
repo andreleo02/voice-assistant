@@ -2,9 +2,8 @@ import os
 import time
 from playsound3 import playsound
 from audio_file_queue import audio_queue, audio_done_event
-from models_loader import tts_model
 
-def synthesize_text(text, folder="outputs", prefix="chunk"):
+def synthesize_text(tts_model, text, folder="outputs", prefix="chunk"):
     """
     Receives text and synthesizes it in a wav file using text-to-speech model
     """

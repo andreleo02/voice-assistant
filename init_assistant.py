@@ -2,7 +2,20 @@ import os
 import time
 from TTS.api import TTS
 from llama_cpp import Llama
+import speech_recognition as sr
 from pywhispercpp.model import Model
+
+def init_speech_recognition():
+    """
+    Initialize speech recognition component
+    """
+    start_time = time.time()
+    r = sr.Recognizer()
+    with sr.Microphone(sample_rate=16_000) as source:
+        r.adjust_for_ambient_noise(source, duration=1.0)
+        r.pause_threshold = 0.8
+    print(F"[INIT] Speech recognizer loaded in {(time.time() - start_time) * 1000:.2f}ms")
+    return r
 
 def load_stt():
     """
@@ -10,7 +23,7 @@ def load_stt():
     """
     start_time = time.time()
     stt = Model("whisper_models/ggml-tiny.en.bin")
-    print(f"[MODELS LOADER] STT model loaded in {(time.time() - start_time) * 1000:.2f}ms")
+    print(f"[INIT] STT model loaded in {(time.time() - start_time) * 1000:.2f}ms")
     return stt
 
 def load_llm():
@@ -24,7 +37,7 @@ def load_llm():
         n_threads=8,
         n_gpu_layers=0
     )
-    print(f"[MODELS LOADER] LLM model loaded in {(time.time() - start_time) * 1000:.2f}ms")
+    print(f"[INIT] LLM model loaded in {(time.time() - start_time) * 1000:.2f}ms")
     return llm
 
 def load_tts():
@@ -46,9 +59,8 @@ def load_tts():
         progress_bar=False,
         gpu=False,
     )
-    print(f"[MODELS LOADER] TTS model loaded in {(time.time() - start_time) * 1000:.2f}ms")
+    print(f"[INIT] TTS model loaded in {(time.time() - start_time) * 1000:.2f}ms")
     return tts
 
-stt_model = load_stt()
-llm_model = load_llm()
-tts_model = load_tts()
+def init_components():
+    return init_speech_recognition(), load_stt(), load_llm(), load_tts()

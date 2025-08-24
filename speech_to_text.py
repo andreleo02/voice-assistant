@@ -1,9 +1,8 @@
 import time
-from models_loader import stt_model
 
 WAKE_WORD = "assistant"
 
-def transcribe(wav_path):
+def transcribe(stt_model, wav_path):
     """
     Transcription of the audio file in text
     using speech-to-text model (Whisper Tiny)
@@ -16,7 +15,7 @@ def transcribe(wav_path):
     print(f"[STT] Transcription completed in {(time.time() - start_time) * 1000:.2f}ms. Text is: '{text}'")
     return text
 
-def detect_wake_word(audio_file):
+def detect_wake_word(stt_model, audio_file):
     """
     Transcription of the audio file in text
     using speech-to-text model (Whisper Tiny) and wake-word detection

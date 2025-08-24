@@ -1,12 +1,11 @@
 import time
 from text_to_speech import synthesize_text
 from audio_file_queue import audio_queue
-from models_loader import llm_model
 
 MAX_TOKENS = 256
 MIN_BUFFER_LENGHT = 20
 
-def generate_response(prompt: str, system_message: str = "You are a helpful assistant."):
+def generate_response(llm_model, prompt: str, system_message: str = "You are a helpful assistant."):
     """
     Prompt submission to LLM model (TinyLlama) and
     stream response in chunks
@@ -32,14 +31,14 @@ def generate_response(prompt: str, system_message: str = "You are a helpful assi
     if buffer.strip():
         yield buffer.strip()
 
-def stream_and_speak(prompt: str):
+def stream_and_speak(llm_model, prompt: str, tts_model):
     """
     Calls the generate_response(...) method and receives the
     response in chunks, that are synthesized and added to the
     audio queue
     """
-    for phrase in generate_response(prompt):
+    for phrase in generate_response(llm_model=llm_model, prompt=prompt):
         if not phrase:
             continue
-        audio_path = synthesize_text(phrase)
+        audio_path = synthesize_text(tts_model=tts_model, text=phrase)
         audio_queue.put(audio_path)
