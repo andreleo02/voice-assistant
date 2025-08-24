@@ -37,8 +37,8 @@ run(f"{activate_script} && {venv_python} -m pip install torch --index-url https:
 
 # --- Install required packages ---
 packages = [
-    "llama-cpp-python", "coqui-tts", "pywhispercpp", "playsound3",
-    "numpy", "huggingface_hub", "SpeechRecognition[audio]"
+    "llama-cpp-python", "coqui-tts", "pywhispercpp",
+    "playsound3", "huggingface_hub", "SpeechRecognition[audio]"
 ]
 print("Installing Python dependencies...")
 run(f"{activate_script} && {venv_python} -m pip install " + " ".join(packages))
@@ -63,6 +63,9 @@ vocoder_model = tts_model_dir / "tts" / "vocoder_models--en--ljspeech--hifigan_v
 if not tts_model.exists():
     print("Downloading TTS models via Python...")
     run(f"{venv_python} tts_model_downloader.py")
+
+# --- Uninstall Huggingface because needed only for model download ---
+run(f"{venv_python} -m pip uninstall -y huggingface_hub")
 
 print(f"Setup complete in {(time.time() - start_time) * 1000:.2f}ms.")
 print(r"To launch the application, activate the environment with venv\Scripts\activate and run: python main.py")
