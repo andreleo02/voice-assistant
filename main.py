@@ -33,7 +33,7 @@ def run_conversation(recognizer, stt_model, llm_model, tts_model):
 if __name__ == "__main__":
     recognizer, stt_model, llm_model, tts_model = init_components()
     threading.Thread(target=audio_player, daemon=True).start()
-    print("[MAIN] ASSISTANT SETUP COMPLETED.")
+    print("[MAIN] ASSISTANT SETUP COMPLETED")
     while True:
         audio_done_event.wait()
         print("[MAIN] WAITING FOR TRIGGER WORD ...")
