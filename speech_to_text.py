@@ -22,4 +22,5 @@ def detect_wake_word(stt_model, audio_file):
     """
     result = stt_model.transcribe(audio_file)
     text = " ".join([seg.text.lower() for seg in result])
+    print(f"[STT] Wake-word detection text is '{text}'")
     return WAKE_WORD in text
