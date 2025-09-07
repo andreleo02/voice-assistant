@@ -1,10 +1,12 @@
 import time
+from resource_watcher import monitor_resources
 from text_to_speech import synthesize_text
 from audio_file_queue import audio_queue
 
 MAX_TOKENS = 256
 MIN_BUFFER_LENGHT = 20
 
+@monitor_resources("LLM", interval=0.5)
 def generate_response(llm_model, prompt: str, system_message: str = "You are an assistant which answers in a precise but concise way."):
     """
     Prompt submission to LLM model (TinyLlama) and

@@ -1,8 +1,10 @@
 import os
 import time
 from playsound3 import playsound
+from resource_watcher import monitor_resources
 from audio_file_queue import audio_queue, audio_done_event
 
+@monitor_resources("TTS", interval=0.5)
 def synthesize_text(tts_model, text, folder="outputs", prefix="chunk"):
     """
     Receives text and synthesizes it in a wav file using text-to-speech model
