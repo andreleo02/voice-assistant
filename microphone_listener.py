@@ -1,7 +1,9 @@
 import time
 import tempfile
 import speech_recognition as sr
+from resource_watcher import monitor_resources
 
+@monitor_resources("SR")
 def record_audio(r):
     """
     Records from mic until the user stops talking (silence detected),
