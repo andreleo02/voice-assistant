@@ -1,5 +1,6 @@
 import time
 from resource_watcher import monitor_resources
+from mqtt_bridge import publish
 
 WAKE_WORD = "assistant"
 
@@ -15,6 +16,7 @@ def transcribe(stt_model, wav_path):
     for segment in segments:
         text += segment.text
     print(f"[STT] Transcription completed in {(time.time() - start_time) * 1000:.2f}ms. Text is: '{text}'")
+    publish("assistant/stt", text)
     return text
 
 def detect_wake_word(stt_model, audio_file):
