@@ -1,9 +1,11 @@
 import os
 import time
 from playsound3 import playsound
+from resource_watcher import monitor_resources
 from audio_file_queue import audio_queue, audio_done_event
 
-def synthesize_text(tts_model, text, folder="outputs", prefix="chunk"):
+@monitor_resources("TTS", interval=0.5)
+def synthesize_text(tts_model, text: str, folder="outputs", prefix="chunk"):
     """
     Receives text and synthesizes it in a wav file using text-to-speech model
     """
@@ -11,7 +13,7 @@ def synthesize_text(tts_model, text, folder="outputs", prefix="chunk"):
     os.makedirs(folder, exist_ok=True)
     timestamp = int(start_time * 1000)
     output_path = os.path.join(folder, f"{prefix}_{timestamp}.wav")
-    tts_model.tts_to_file(text=text, file_path=output_path)
+    tts_model.tts_to_file(text=text.replace("/", " "), file_path=output_path)
     print(f"[TTS] Audio synthesized in {(time.time() - start_time) * 1000:.2f}ms")
     return output_path
 

@@ -1,7 +1,9 @@
 import time
+from resource_watcher import monitor_resources
 
 WAKE_WORD = "assistant"
 
+@monitor_resources("STT", interval=0.5)
 def transcribe(stt_model, wav_path):
     """
     Transcription of the audio file in text
