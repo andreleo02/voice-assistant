@@ -1,0 +1,584 @@
+[
+    {
+        "id": "0ea88e2dc42daf85",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c2202631d49ba636",
+        "type": "group",
+        "z": "0ea88e2dc42daf85",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "099e4ec6cfcce731",
+            "d157398c1f7cc1b7",
+            "81d17b40d9ce940c",
+            "0f9cd3e663b6c311",
+            "b4f537d17d535b65"
+        ],
+        "x": 154,
+        "y": 39,
+        "w": 672,
+        "h": 202
+    },
+    {
+        "id": "mqttBroker1",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true
+    },
+    {
+        "id": "uiBase1",
+        "type": "ui-base",
+        "name": "Assistant UI",
+        "path": "/dashboard",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "uiPage1",
+        "type": "ui-page",
+        "name": "Assistant",
+        "ui": "uiBase1",
+        "path": "",
+        "icon": "microphone",
+        "layout": "grid",
+        "theme": "4c0f6fb302976c75",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "uiGroupControls",
+        "type": "ui-group",
+        "name": "Controls",
+        "page": "uiPage1",
+        "width": 6,
+        "order": 1
+    },
+    {
+        "id": "uiGroupLive",
+        "type": "ui-group",
+        "name": "Live Feed",
+        "page": "uiPage1",
+        "width": 12,
+        "order": 2
+    },
+    {
+        "id": "4c0f6fb302976c75",
+        "type": "ui-theme",
+        "name": "Assistant theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "099e4ec6cfcce731",
+        "type": "exec",
+        "z": "0ea88e2dc42daf85",
+        "g": "c2202631d49ba636",
+        "command": "cmd.exe /C \"python C:\\Users\\andre\\projects\\voice-assistant\\install_assistant.py\"",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "installer",
+        "x": 480,
+        "y": 140,
+        "wires": [
+            [
+                "d157398c1f7cc1b7"
+            ],
+            [
+                "0f9cd3e663b6c311"
+            ],
+            [
+                "b4f537d17d535b65"
+            ]
+        ],
+        "info": "Install the required dependencies and libraries"
+    },
+    {
+        "id": "d157398c1f7cc1b7",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "g": "c2202631d49ba636",
+        "name": "standard out",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "81d17b40d9ce940c",
+        "type": "inject",
+        "z": "0ea88e2dc42daf85",
+        "g": "c2202631d49ba636",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "install",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 140,
+        "wires": [
+            [
+                "099e4ec6cfcce731"
+            ]
+        ]
+    },
+    {
+        "id": "0f9cd3e663b6c311",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "g": "c2202631d49ba636",
+        "name": "standard err",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "b4f537d17d535b65",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "g": "c2202631d49ba636",
+        "name": "exit code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "btnPause",
+        "type": "ui-button",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupControls",
+        "name": "Pause",
+        "label": "Pause",
+        "order": 1,
+        "width": 3,
+        "height": 1,
+        "className": "",
+        "icon": "",
+        "payload": "pause",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 170,
+        "y": 380,
+        "wires": [
+            [
+                "mqttOutCmd"
+            ]
+        ]
+    },
+    {
+        "id": "btnResume",
+        "type": "ui-button",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupControls",
+        "name": "Resume",
+        "label": "Resume",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "payload": "resume",
+        "payloadType": "str",
+        "x": 180,
+        "y": 440,
+        "wires": [
+            [
+                "mqttOutCmd"
+            ]
+        ]
+    },
+    {
+        "id": "sayText",
+        "type": "ui-text-input",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupControls",
+        "name": "Say",
+        "label": "Say",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "topic": "",
+        "mode": "text",
+        "passthru": true,
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "fnStoreSay"
+            ]
+        ]
+    },
+    {
+        "id": "btnSay",
+        "type": "ui-button",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupControls",
+        "name": "Speak",
+        "label": "Speak",
+        "order": 4,
+        "width": 2,
+        "height": 1,
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "fnBuildSay"
+            ]
+        ]
+    },
+    {
+        "id": "fnStoreSay",
+        "type": "function",
+        "z": "0ea88e2dc42daf85",
+        "name": "store say text",
+        "func": "flow.set('say_text', (msg.payload||'').toString());\nreturn null;",
+        "outputs": 1,
+        "x": 330,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fnBuildSay",
+        "type": "function",
+        "z": "0ea88e2dc42daf85",
+        "name": "build say: payload",
+        "func": "const text = (flow.get('say_text')||'').trim();\nif(!text) return null;\nmsg.payload = `say: ${text}`;\nreturn msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 320,
+        "wires": [
+            [
+                "mqttOutCmd"
+            ]
+        ]
+    },
+    {
+        "id": "mqttOutCmd",
+        "type": "mqtt out",
+        "z": "0ea88e2dc42daf85",
+        "name": "Assistant CMD",
+        "topic": "assistant/cmd",
+        "qos": "0",
+        "retain": "false",
+        "broker": "mqttBroker1",
+        "x": 580,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "mqttState",
+        "type": "mqtt in",
+        "z": "0ea88e2dc42daf85",
+        "name": "State",
+        "topic": "assistant/state",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqttBroker1",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 170,
+        "y": 500,
+        "wires": [
+            [
+                "uiState"
+            ]
+        ]
+    },
+    {
+        "id": "uiState",
+        "type": "ui-text",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupLive",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "State",
+        "label": "State",
+        "format": "{{msg.payload}}",
+        "x": 310,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "mqttSTT",
+        "type": "mqtt in",
+        "z": "0ea88e2dc42daf85",
+        "name": "Transcript",
+        "topic": "assistant/stt",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqttBroker1",
+        "inputs": 0,
+        "x": 540,
+        "y": 580,
+        "wires": [
+            [
+                "uiSTT"
+            ]
+        ]
+    },
+    {
+        "id": "uiSTT",
+        "type": "ui-text",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupLive",
+        "order": 2,
+        "width": 12,
+        "height": 1,
+        "name": "Heard",
+        "label": "Heard",
+        "format": "{{msg.payload}}",
+        "x": 690,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "mqttLLM",
+        "type": "mqtt in",
+        "z": "0ea88e2dc42daf85",
+        "name": "Assistant Output",
+        "topic": "assistant/llm_chunk",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqttBroker1",
+        "inputs": 0,
+        "x": 520,
+        "y": 500,
+        "wires": [
+            [
+                "uiLLM"
+            ]
+        ]
+    },
+    {
+        "id": "uiLLM",
+        "type": "ui-text",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupLive",
+        "order": 3,
+        "width": 12,
+        "height": 1,
+        "name": "Speaking",
+        "label": "Speaking",
+        "format": "{{msg.payload}}",
+        "x": 720,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "btnStart",
+        "type": "ui-button",
+        "z": "0ea88e2dc42daf85",
+        "group": "uiGroupControls",
+        "name": "Start Assistant",
+        "label": "Start Assistant",
+        "order": 5,
+        "width": 3,
+        "height": 1,
+        "emulateClick": false,
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "start",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 700,
+        "wires": [
+            [
+                "execStart"
+            ]
+        ]
+    },
+    {
+        "id": "execStart",
+        "type": "exec",
+        "z": "0ea88e2dc42daf85",
+        "command": "cmd.exe",
+        "addpay": "payload",
+        "append": "/C \"C:\\Users\\andre\\projects\\voice-assistant\\venv\\Scripts\\python.exe C:\\Users\\andre\\projects\\voice-assistant\\main.py\"",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "name": "Start Assistant (Windows)",
+        "x": 430,
+        "y": 700,
+        "wires": [
+            [
+                "cecc2d0962095f63"
+            ],
+            [
+                "e4b63e1dc97f92b7"
+            ],
+            [
+                "d9a6043be600637a"
+            ]
+        ]
+    },
+    {
+        "id": "cecc2d0962095f63",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "standard out",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e4b63e1dc97f92b7",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "standard err",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "d9a6043be600637a",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "exit code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "9240266ab495fc72",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.29.0"
+        }
+    }
+]
