@@ -11,14 +11,9 @@
         "id": "c2202631d49ba636",
         "type": "group",
         "z": "0ea88e2dc42daf85",
+        "name": "Installer",
         "style": {
-            "stroke": "#999999",
-            "stroke-opacity": "1",
-            "fill": "none",
-            "fill-opacity": "1",
-            "label": true,
-            "label-position": "nw",
-            "color": "#a4a4a4"
+            "label": true
         },
         "nodes": [
             "099e4ec6cfcce731",
@@ -33,94 +28,33 @@
         "h": 202
     },
     {
-        "id": "mqttBroker1",
-        "type": "mqtt-broker",
-        "name": "Local Mosquitto",
-        "broker": "localhost",
-        "port": "1883",
-        "clientid": "",
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true
-    },
-    {
-        "id": "uiBase1",
-        "type": "ui-base",
-        "name": "Assistant UI",
-        "path": "/dashboard",
-        "titleBarStyle": "default"
-    },
-    {
-        "id": "uiPage1",
-        "type": "ui-page",
-        "name": "Assistant",
-        "ui": "uiBase1",
-        "path": "",
-        "icon": "microphone",
-        "layout": "grid",
-        "theme": "4c0f6fb302976c75",
-        "breakpoints": [
-            {
-                "name": "Default",
-                "px": "0",
-                "cols": "3"
-            },
-            {
-                "name": "Tablet",
-                "px": "576",
-                "cols": "6"
-            },
-            {
-                "name": "Small Desktop",
-                "px": "768",
-                "cols": "9"
-            },
-            {
-                "name": "Desktop",
-                "px": "1024",
-                "cols": "12"
-            }
-        ],
-        "order": 1,
-        "className": "",
-        "visible": "true",
-        "disabled": "false"
-    },
-    {
-        "id": "uiGroupControls",
-        "type": "ui-group",
-        "name": "Controls",
-        "page": "uiPage1",
-        "width": 6,
-        "order": 1
-    },
-    {
-        "id": "uiGroupLive",
-        "type": "ui-group",
-        "name": "Live Feed",
-        "page": "uiPage1",
-        "width": 12,
-        "order": 2
-    },
-    {
-        "id": "4c0f6fb302976c75",
-        "type": "ui-theme",
-        "name": "Assistant theme",
-        "colors": {
-            "surface": "#ffffff",
-            "primary": "#0094ce",
-            "bgPage": "#eeeeee",
-            "groupBg": "#ffffff",
-            "groupOutline": "#cccccc"
+        "id": "f8c84f057bccfbe6",
+        "type": "group",
+        "z": "0ea88e2dc42daf85",
+        "name": "Execution",
+        "style": {
+            "label": true
         },
-        "sizes": {
-            "density": "default",
-            "pagePadding": "12px",
-            "groupGap": "12px",
-            "groupBorderRadius": "4px",
-            "widgetGap": "12px"
-        }
+        "nodes": [
+            "mqttState",
+            "uiState",
+            "mqttSTT",
+            "uiSTT",
+            "mqttLLM",
+            "uiLLM",
+            "btnStart",
+            "execStart",
+            "cecc2d0962095f63",
+            "e4b63e1dc97f92b7",
+            "d9a6043be600637a",
+            "btnShutdown",
+            "setTopic",
+            "mqttOut"
+        ],
+        "x": 154,
+        "y": 279,
+        "w": 712,
+        "h": 422
     },
     {
         "id": "099e4ec6cfcce731",
@@ -235,145 +169,20 @@
         "wires": []
     },
     {
-        "id": "btnPause",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "group": "uiGroupControls",
-        "name": "Pause",
-        "label": "Pause",
-        "order": 1,
-        "width": 3,
-        "height": 1,
-        "className": "",
-        "icon": "",
-        "payload": "pause",
-        "payloadType": "str",
-        "topic": "",
-        "topicType": "str",
-        "x": 170,
-        "y": 380,
-        "wires": [
-            [
-                "mqttOutCmd"
-            ]
-        ]
-    },
-    {
-        "id": "btnResume",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "group": "uiGroupControls",
-        "name": "Resume",
-        "label": "Resume",
-        "order": 2,
-        "width": 3,
-        "height": 1,
-        "payload": "resume",
-        "payloadType": "str",
-        "x": 180,
-        "y": 440,
-        "wires": [
-            [
-                "mqttOutCmd"
-            ]
-        ]
-    },
-    {
-        "id": "sayText",
-        "type": "ui-text-input",
-        "z": "0ea88e2dc42daf85",
-        "group": "uiGroupControls",
-        "name": "Say",
-        "label": "Say",
-        "order": 3,
-        "width": 6,
-        "height": 1,
-        "topic": "",
-        "mode": "text",
-        "passthru": true,
-        "x": 170,
-        "y": 580,
-        "wires": [
-            [
-                "fnStoreSay"
-            ]
-        ]
-    },
-    {
-        "id": "btnSay",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "group": "uiGroupControls",
-        "name": "Speak",
-        "label": "Speak",
-        "order": 4,
-        "width": 2,
-        "height": 1,
-        "payload": "",
-        "payloadType": "str",
-        "x": 170,
-        "y": 320,
-        "wires": [
-            [
-                "fnBuildSay"
-            ]
-        ]
-    },
-    {
-        "id": "fnStoreSay",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "store say text",
-        "func": "flow.set('say_text', (msg.payload||'').toString());\nreturn null;",
-        "outputs": 1,
-        "x": 330,
-        "y": 580,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "fnBuildSay",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "build say: payload",
-        "func": "const text = (flow.get('say_text')||'').trim();\nif(!text) return null;\nmsg.payload = `say: ${text}`;\nreturn msg;",
-        "outputs": 1,
-        "x": 370,
-        "y": 320,
-        "wires": [
-            [
-                "mqttOutCmd"
-            ]
-        ]
-    },
-    {
-        "id": "mqttOutCmd",
-        "type": "mqtt out",
-        "z": "0ea88e2dc42daf85",
-        "name": "Assistant CMD",
-        "topic": "assistant/cmd",
-        "qos": "0",
-        "retain": "false",
-        "broker": "mqttBroker1",
-        "x": 580,
-        "y": 380,
-        "wires": []
-    },
-    {
         "id": "mqttState",
         "type": "mqtt in",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "name": "State",
         "topic": "assistant/state",
         "qos": "0",
-        "datatype": "auto",
+        "datatype": "auto-detect",
         "broker": "mqttBroker1",
         "nl": false,
         "rap": false,
         "inputs": 0,
-        "x": 170,
-        "y": 500,
+        "x": 250,
+        "y": 580,
         "wires": [
             [
                 "uiState"
@@ -384,6 +193,7 @@
         "id": "uiState",
         "type": "ui-text",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "group": "uiGroupLive",
         "order": 1,
         "width": 6,
@@ -391,22 +201,32 @@
         "name": "State",
         "label": "State",
         "format": "{{msg.payload}}",
-        "x": 310,
-        "y": 500,
+        "layout": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 390,
+        "y": 580,
         "wires": []
     },
     {
         "id": "mqttSTT",
         "type": "mqtt in",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "name": "Transcript",
         "topic": "assistant/stt",
         "qos": "0",
         "datatype": "auto",
         "broker": "mqttBroker1",
         "inputs": 0,
-        "x": 540,
-        "y": 580,
+        "x": 580,
+        "y": 660,
         "wires": [
             [
                 "uiSTT"
@@ -417,6 +237,7 @@
         "id": "uiSTT",
         "type": "ui-text",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "group": "uiGroupLive",
         "order": 2,
         "width": 12,
@@ -424,22 +245,23 @@
         "name": "Heard",
         "label": "Heard",
         "format": "{{msg.payload}}",
-        "x": 690,
-        "y": 580,
+        "x": 790,
+        "y": 660,
         "wires": []
     },
     {
         "id": "mqttLLM",
         "type": "mqtt in",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "name": "Assistant Output",
         "topic": "assistant/llm_chunk",
         "qos": "0",
         "datatype": "auto",
         "broker": "mqttBroker1",
         "inputs": 0,
-        "x": 520,
-        "y": 500,
+        "x": 600,
+        "y": 580,
         "wires": [
             [
                 "uiLLM"
@@ -450,6 +272,7 @@
         "id": "uiLLM",
         "type": "ui-text",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "group": "uiGroupLive",
         "order": 3,
         "width": 12,
@@ -457,19 +280,20 @@
         "name": "Speaking",
         "label": "Speaking",
         "format": "{{msg.payload}}",
-        "x": 720,
-        "y": 500,
+        "x": 780,
+        "y": 580,
         "wires": []
     },
     {
         "id": "btnStart",
         "type": "ui-button",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "group": "uiGroupControls",
         "name": "Start Assistant",
         "label": "Start Assistant",
         "order": 5,
-        "width": 3,
+        "width": "6",
         "height": 1,
         "emulateClick": false,
         "className": "",
@@ -489,8 +313,8 @@
         "enablePointerup": false,
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
-        "x": 200,
-        "y": 700,
+        "x": 260,
+        "y": 320,
         "wires": [
             [
                 "execStart"
@@ -501,15 +325,16 @@
         "id": "execStart",
         "type": "exec",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "command": "cmd.exe",
-        "addpay": "payload",
+        "addpay": "kill",
         "append": "/C \"C:\\Users\\andre\\projects\\voice-assistant\\venv\\Scripts\\python.exe C:\\Users\\andre\\projects\\voice-assistant\\main.py\"",
         "useSpawn": "true",
         "timer": "",
         "winHide": false,
-        "name": "Start Assistant (Windows)",
-        "x": 430,
-        "y": 700,
+        "name": "Assistant",
+        "x": 500,
+        "y": 380,
         "wires": [
             [
                 "cecc2d0962095f63"
@@ -526,6 +351,7 @@
         "id": "cecc2d0962095f63",
         "type": "debug",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "name": "standard out",
         "active": true,
         "tosidebar": true,
@@ -535,14 +361,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 690,
-        "y": 640,
+        "x": 750,
+        "y": 320,
         "wires": []
     },
     {
         "id": "e4b63e1dc97f92b7",
         "type": "debug",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "name": "standard err",
         "active": true,
         "tosidebar": true,
@@ -552,14 +379,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 690,
-        "y": 700,
+        "x": 750,
+        "y": 380,
         "wires": []
     },
     {
         "id": "d9a6043be600637a",
         "type": "debug",
         "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
         "name": "exit code",
         "active": true,
         "tosidebar": true,
@@ -569,12 +397,193 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 680,
-        "y": 760,
+        "x": 740,
+        "y": 440,
         "wires": []
     },
     {
-        "id": "9240266ab495fc72",
+        "id": "btnShutdown",
+        "type": "ui-button",
+        "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
+        "group": "uiGroupControls",
+        "name": "Stop Assistant",
+        "label": "Stop Assistant",
+        "order": 1,
+        "width": "6",
+        "height": 1,
+        "emulateClick": false,
+        "className": "",
+        "icon": "",
+        "iconPosition": "right",
+        "payload": "shutdown",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "red",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 260,
+        "y": 400,
+        "wires": [
+            [
+                "setTopic"
+            ]
+        ]
+    },
+    {
+        "id": "setTopic",
+        "type": "change",
+        "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
+        "name": "set topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "assistant/cmd",
+                "tot": "str"
+            }
+        ],
+        "x": 260,
+        "y": 480,
+        "wires": [
+            [
+                "mqttOut"
+            ]
+        ]
+    },
+    {
+        "id": "mqttOut",
+        "type": "mqtt out",
+        "z": "0ea88e2dc42daf85",
+        "g": "f8c84f057bccfbe6",
+        "name": "publish cmd",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqttBroker1",
+        "x": 450,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "mqttBroker1",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true
+    },
+    {
+        "id": "uiGroupLive",
+        "type": "ui-group",
+        "name": "Live Feed",
+        "page": "uiPage1",
+        "width": "6",
+        "height": "3",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "uiGroupControls",
+        "type": "ui-group",
+        "name": "Controls",
+        "page": "uiPage1",
+        "width": 6,
+        "height": "3",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "uiPage1",
+        "type": "ui-page",
+        "name": "Assistant",
+        "ui": "uiBase1",
+        "path": "",
+        "icon": "microphone",
+        "layout": "grid",
+        "theme": "4c0f6fb302976c75",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "uiBase1",
+        "type": "ui-base",
+        "name": "Assistant UI",
+        "path": "/dashboard",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "4c0f6fb302976c75",
+        "type": "ui-theme",
+        "name": "Assistant theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "9c1411ddd0ca6caf",
         "type": "global-config",
         "env": [],
         "modules": {

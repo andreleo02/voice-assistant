@@ -2,6 +2,8 @@ import os, queue
 from threading import Event
 import paho.mqtt.client as mqtt
 
+shutdown_event = Event()
+
 BROKER = os.getenv("MQTT_BROKER", "localhost")
 PORT = int(os.getenv("MQTT_PORT", "1883"))
 
@@ -13,12 +15,10 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     payload = msg.payload.decode().strip()
-    if payload == "pause":
-        paused_event.set()
-    elif payload == "resume":
-        paused_event.clear()
-    elif payload.startswith("say:"):
-        cmd_queue.put(("say", payload[4:].strip()))
+    if payload == "shutdown":
+        print("[MQTT] Shutdown signal received.")
+        publish("assistant/state", "stopped")
+        shutdown_event.set()
 
 _client = None
 def mqtt_client():
@@ -34,3 +34,8 @@ def mqtt_client():
 
 def publish(topic, payload):
     mqtt_client().publish(topic, payload, qos=0, retain=False)
+
+def stop_mqtt():
+    c = mqtt_client()
+    c.loop_stop()
+    c.disconnect()

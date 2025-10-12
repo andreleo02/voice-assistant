@@ -3,6 +3,7 @@ import time
 from playsound3 import playsound
 from resource_watcher import monitor_resources
 from audio_file_queue import audio_queue, audio_done_event
+from mqtt_bridge import publish
 
 @monitor_resources("TTS", interval=0.5)
 def synthesize_text(tts_model, text: str, folder="outputs", prefix="chunk"):
@@ -31,6 +32,7 @@ def audio_player():
             audio_done_event.clear()
             try:
                 print("[MAIN] SPEAKING ...")
+                publish("assistant/state", "speaking")
                 playsound(file)
             except Exception as e:
                 print(f"[AUDIO PLAYER] Playback error: {e}")
