@@ -637,7 +637,8 @@
                 "sqliteInsert"
             ],
             [
-                "9fc23d4589b1b7fb"
+                "9fc23d4589b1b7fb",
+                "ec4e562737327975"
             ]
         ]
     },
@@ -733,7 +734,7 @@
         "type": "function",
         "z": "1422cfa039b24723",
         "name": "to ui-chart series",
-        "func": "const rows = Array.isArray(msg.payload) ? msg.payload : [];\nconst byTopic = {};\nfor (const p of rows) {\n  const t = p.topic || \"(none)\";\n  (byTopic[t] ||= []).push({ x: new Date(p._time).getTime(), y: Number(p._value || 0) });\n}\nObject.values(byTopic).forEach(a => a.sort((a,b)=>a.x-b.x));\n\nmsg.payload = Object.entries(byTopic).map(([name, data]) => ({\n  series: [name],\n  data: [data]\n}));\nreturn msg;",
+        "func": "// Accept single row or array from Influx\nconst rows = Array.isArray(msg.payload) ? msg.payload\n            : (msg.payload && typeof msg.payload === \"object\" ? [msg.payload] : []);\n\n// Group by topic and map to {x,y}\nconst byTopic = {};\nfor (const p of rows) {\n  const t = p.topic || \"(none)\";\n  const x = new Date(p._time).getTime();\n  const y = Number(p._value || 0);\n  if (!Number.isFinite(y)) continue;\n  (byTopic[t] ||= []).push({ x, y });\n}\n// Sort by time\nObject.values(byTopic).forEach(a => a.sort((a,b)=>a.x - b.x));\n\n// Preformatted series for ui-chart\nmsg.payload = Object.entries(byTopic).map(([name, data]) => ({\n  series: [name],\n  data: [data]\n}));\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -744,70 +745,9 @@
         "y": 220,
         "wires": [
             [
-                "uiChart"
+                "26fd9d4f76db079e",
+                "6bc19be01883d742"
             ]
-        ]
-    },
-    {
-        "id": "uiChart",
-        "type": "ui-chart",
-        "z": "1422cfa039b24723",
-        "group": "grpCharts",
-        "name": "Messages/min by topic (1h)",
-        "label": "",
-        "order": 2,
-        "chartType": "line",
-        "category": "payload",
-        "categoryType": "msg",
-        "xAxisLabel": "",
-        "xAxisProperty": "",
-        "xAxisPropertyType": "timestamp",
-        "xAxisType": "time",
-        "xAxisFormat": "",
-        "xAxisFormatType": "auto",
-        "xmin": "",
-        "xmax": "",
-        "yAxisLabel": "",
-        "yAxisProperty": "",
-        "yAxisPropertyType": "property",
-        "ymin": "",
-        "ymax": "",
-        "bins": "",
-        "action": "replace",
-        "stackSeries": false,
-        "pointShape": "circle",
-        "pointRadius": "",
-        "showLegend": true,
-        "removeOlder": "0",
-        "removeOlderUnit": "3600",
-        "removeOlderPoints": "0",
-        "colors": [
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000"
-        ],
-        "textColor": [
-            "#666666"
-        ],
-        "textColorDefault": true,
-        "gridColor": [
-            "#e5e5e5"
-        ],
-        "gridColorDefault": true,
-        "width": 12,
-        "height": 6,
-        "className": "",
-        "interpolation": "linear",
-        "x": 860,
-        "y": 220,
-        "wires": [
-            []
         ]
     },
     {
@@ -1069,7 +1009,101 @@
         "wires": []
     },
     {
-        "id": "ba5a58cd7310b82e",
+        "id": "26fd9d4f76db079e",
+        "type": "ui-chart",
+        "z": "1422cfa039b24723",
+        "group": "grpCharts",
+        "name": "",
+        "label": "Metrics chart",
+        "order": 9007199254740991,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "",
+        "ymax": "",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": 1,
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "12",
+        "height": "6",
+        "className": "",
+        "interpolation": "linear",
+        "x": 830,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec4e562737327975",
+        "type": "debug",
+        "z": "1422cfa039b24723",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "6bc19be01883d742",
+        "type": "debug",
+        "z": "1422cfa039b24723",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "b429ddeb3dc6d8b3",
         "type": "global-config",
         "env": [],
         "modules": {
