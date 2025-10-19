@@ -8,11 +8,11 @@ from urllib.request import urlretrieve
 
 start_time = time.time()
 
-# --- lock working dir to the project root (this file's folder) ---
+# --- lock working dir to the project root ---
 PROJECT_ROOT = Path(__file__).resolve().parent
 os.chdir(PROJECT_ROOT)
 
-# env for Coqui TTS build cache and Windows toolchain (harmless on non-Windows)
+# env for Coqui TTS build cache and Windows toolchain
 os.environ["CMAKE_GENERATOR"] = "NMake Makefiles"
 os.environ["DISTUTILS_USE_SDK"] = "1"
 os.environ["USE_VS2022"] = "1"
@@ -49,11 +49,11 @@ else:
 # --- Upgrade pip ---
 runp([str(venv_python), "-m", "pip", "install", "--upgrade", "pip"])
 
-# --- Torch CPU only (works offline later) ---
+# --- Torch CPU only (works offline) ---
 runp([str(venv_python), "-m", "pip", "install", "torch",
       "--index-url", "https://download.pytorch.org/whl/cpu"])
 
-# --- Core deps used by your modules ---
+# --- Install required packages ---
 packages = [
     "llama-cpp-python", "coqui-tts", "pywhispercpp", "paho-mqtt",
     "playsound3", "huggingface_hub", "SpeechRecognition[audio]"
