@@ -213,3 +213,5 @@ outputs/
 
 input.wav
 response.wav
+data/
+influxdb.tok

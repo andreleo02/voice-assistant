@@ -4,6 +4,13 @@ from TTS.api import TTS
 from llama_cpp import Llama
 import speech_recognition as sr
 from pywhispercpp.model import Model
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+WHISPER_PATH = PROJECT_ROOT / "whisper_models" / "ggml-tiny.en.bin"
+LLM_PATH = PROJECT_ROOT / "llm_models" / "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+TTS_DIR = PROJECT_ROOT / "tts_models"
 
 def init_speech_recognition():
     """
@@ -22,7 +29,7 @@ def load_stt():
     Loads speech-to-text model
     """
     start_time = time.time()
-    stt = Model("whisper_models/ggml-tiny.en.bin")
+    stt = Model(WHISPER_PATH.absolute().as_posix())
     print(f"[INIT] STT model loaded in {(time.time() - start_time) * 1000:.2f}ms")
     return stt
 
@@ -32,7 +39,7 @@ def load_llm():
     """
     start_time = time.time()
     llm = Llama(
-        model_path="./llm_models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+        model_path=LLM_PATH.absolute().as_posix(),
         n_ctx=2048,
         n_threads=8,
         n_gpu_layers=0
@@ -45,7 +52,7 @@ def load_tts():
     Loads text-to-speech model
     """
     start_time = time.time()
-    model_dir = "tts_models"
+    model_dir = TTS_DIR
     model_path = os.path.join(model_dir, "tts", "tts_models--en--ljspeech--tacotron2-DDC", "model.pth")
     config_path = os.path.join(model_dir, "tts", "tts_models--en--ljspeech--tacotron2-DDC", "config.json")
     vocoder_path = os.path.join(model_dir, "tts", "vocoder_models--en--ljspeech--hifigan_v2", "model.pth")

@@ -2,6 +2,7 @@ import time
 from resource_watcher import monitor_resources
 from text_to_speech import synthesize_text
 from audio_file_queue import audio_queue
+from mqtt_bridge import publish
 
 MAX_TOKENS = 256
 MIN_BUFFER_LENGHT = 20
@@ -28,9 +29,12 @@ def generate_response(llm_model, prompt: str, system_message: str = "You are an 
         token = chunk["choices"][0]["text"]
         buffer += token
         if token in [".", "!", "?", "\n"] and len(buffer) > MIN_BUFFER_LENGHT:
-            yield buffer.strip()
+            phrase = buffer.strip()
+            publish("assistant/llm_chunk", phrase)
+            yield phrase
             buffer = ""
     if buffer.strip():
+        publish("assistant/llm_chunk", buffer.strip())
         yield buffer.strip()
 
 def stream_and_speak(llm_model, prompt: str, tts_model):
