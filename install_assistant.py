@@ -80,6 +80,14 @@ if not tts_tacotron.exists():
     print("Downloading TTS models via Python helper …")
     runp([str(venv_python), str(PROJECT_ROOT / "tts_model_downloader.py")])
 
+# --- Create SQLite db folder and file ---
+data_dir = PROJECT_ROOT / "data"
+sqlite_db = data_dir / "assistant.db"
+if not sqlite_db.exists():
+    Path(data_dir).mkdir(parents=True, exist_ok=True)
+    open(sqlite_db, mode="x")
+
+
 elapsed = (time.time() - start_time) / 60
 print(f"Setup complete in {elapsed:.1f} min.")
 print(r"To launch: venv\Scripts\python.exe main.py  (or use the Node-RED Exec node)")

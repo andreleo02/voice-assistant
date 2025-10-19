@@ -2,918 +2,26 @@
     {
         "id": "0ea88e2dc42daf85",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Installer",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "c2202631d49ba636",
-        "type": "group",
-        "z": "0ea88e2dc42daf85",
-        "name": "Installer",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "099e4ec6cfcce731",
-            "d157398c1f7cc1b7",
-            "81d17b40d9ce940c",
-            "0f9cd3e663b6c311",
-            "b4f537d17d535b65"
-        ],
-        "x": 154,
-        "y": 39,
-        "w": 672,
-        "h": 202
+        "id": "5475c741fca88cb8",
+        "type": "tab",
+        "label": "Execution",
+        "disabled": false,
+        "info": "",
+        "env": []
     },
     {
-        "id": "f8c84f057bccfbe6",
-        "type": "group",
-        "z": "0ea88e2dc42daf85",
-        "name": "Execution",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "mqttState",
-            "uiState",
-            "mqttSTT",
-            "uiSTT",
-            "mqttLLM",
-            "uiLLM",
-            "btnStart",
-            "execStart",
-            "cecc2d0962095f63",
-            "e4b63e1dc97f92b7",
-            "d9a6043be600637a",
-            "btnShutdown",
-            "setTopic",
-            "mqttOut",
-            "e10f70d7ccd97e4e"
-        ],
-        "x": 174,
-        "y": 279,
-        "w": 692,
-        "h": 422
-    },
-    {
-        "id": "099e4ec6cfcce731",
-        "type": "exec",
-        "z": "0ea88e2dc42daf85",
-        "g": "c2202631d49ba636",
-        "command": "cmd.exe /C \"python C:\\Users\\andre\\projects\\voice-assistant\\install_assistant.py\"",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "true",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "installer",
-        "x": 480,
-        "y": 140,
-        "wires": [
-            [
-                "d157398c1f7cc1b7"
-            ],
-            [
-                "0f9cd3e663b6c311"
-            ],
-            [
-                "b4f537d17d535b65"
-            ]
-        ],
-        "info": "Install the required dependencies and libraries"
-    },
-    {
-        "id": "d157398c1f7cc1b7",
-        "type": "debug",
-        "z": "0ea88e2dc42daf85",
-        "g": "c2202631d49ba636",
-        "name": "standard out",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 710,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "81d17b40d9ce940c",
-        "type": "inject",
-        "z": "0ea88e2dc42daf85",
-        "g": "c2202631d49ba636",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "install",
-        "payload": "",
-        "payloadType": "date",
-        "x": 280,
-        "y": 140,
-        "wires": [
-            [
-                "099e4ec6cfcce731"
-            ]
-        ]
-    },
-    {
-        "id": "0f9cd3e663b6c311",
-        "type": "debug",
-        "z": "0ea88e2dc42daf85",
-        "g": "c2202631d49ba636",
-        "name": "standard err",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 710,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "b4f537d17d535b65",
-        "type": "debug",
-        "z": "0ea88e2dc42daf85",
-        "g": "c2202631d49ba636",
-        "name": "exit code",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 700,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "mqttState",
-        "type": "mqtt in",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "State",
-        "topic": "assistant/state",
-        "qos": "0",
-        "datatype": "auto-detect",
-        "broker": "mqttBroker1",
-        "nl": false,
-        "rap": false,
-        "inputs": 0,
-        "x": 250,
-        "y": 580,
-        "wires": [
-            [
-                "uiState"
-            ]
-        ]
-    },
-    {
-        "id": "uiState",
-        "type": "ui-text",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "group": "uiGroupLive",
-        "order": 1,
-        "width": 6,
-        "height": 1,
-        "name": "State",
-        "label": "State",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "style": false,
-        "font": "",
-        "fontSize": "",
-        "color": "#000000",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 390,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "mqttSTT",
-        "type": "mqtt in",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "Transcript",
-        "topic": "assistant/stt",
-        "qos": "0",
-        "datatype": "auto",
-        "broker": "mqttBroker1",
-        "inputs": 0,
-        "x": 580,
-        "y": 660,
-        "wires": [
-            [
-                "uiSTT"
-            ]
-        ]
-    },
-    {
-        "id": "uiSTT",
-        "type": "ui-text",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "group": "uiGroupLive",
-        "order": 2,
-        "width": 12,
-        "height": 1,
-        "name": "Heard",
-        "label": "Heard",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "style": false,
-        "font": "",
-        "fontSize": "",
-        "color": "#000000",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 790,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "mqttLLM",
-        "type": "mqtt in",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "Assistant Output",
-        "topic": "assistant/llm_chunk",
-        "qos": "0",
-        "datatype": "auto",
-        "broker": "mqttBroker1",
-        "inputs": 0,
-        "x": 600,
-        "y": 580,
-        "wires": [
-            [
-                "uiLLM"
-            ]
-        ]
-    },
-    {
-        "id": "uiLLM",
-        "type": "ui-text",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "group": "uiGroupLive",
-        "order": 3,
-        "width": 12,
-        "height": "4",
-        "name": "Speaking",
-        "label": "Speaking",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "style": false,
-        "font": "",
-        "fontSize": "",
-        "color": "#000000",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 780,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "btnStart",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "group": "uiGroupControls",
-        "name": "Start Assistant",
-        "label": "Start Assistant",
-        "order": 5,
-        "width": "3",
-        "height": "1",
-        "emulateClick": false,
-        "className": "",
-        "icon": "play",
-        "iconPosition": "left",
-        "payload": "starting",
-        "payloadType": "str",
-        "topic": "",
-        "topicType": "str",
-        "buttonColor": "",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 280,
-        "y": 440,
-        "wires": [
-            [
-                "execStart",
-                "e10f70d7ccd97e4e"
-            ]
-        ]
-    },
-    {
-        "id": "execStart",
-        "type": "exec",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "command": "cmd.exe",
-        "addpay": "kill",
-        "append": "/C \"C:\\Users\\andre\\projects\\voice-assistant\\venv\\Scripts\\python.exe C:\\Users\\andre\\projects\\voice-assistant\\main.py\"",
-        "useSpawn": "true",
-        "timer": "",
-        "winHide": false,
-        "name": "Assistant",
-        "x": 500,
-        "y": 380,
-        "wires": [
-            [
-                "cecc2d0962095f63"
-            ],
-            [
-                "e4b63e1dc97f92b7"
-            ],
-            [
-                "d9a6043be600637a"
-            ]
-        ]
-    },
-    {
-        "id": "cecc2d0962095f63",
-        "type": "debug",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "standard out",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 750,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "e4b63e1dc97f92b7",
-        "type": "debug",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "standard err",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 750,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "d9a6043be600637a",
-        "type": "debug",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "exit code",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 740,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "btnShutdown",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "group": "uiGroupControls",
-        "name": "Stop Assistant",
-        "label": "Stop Assistant",
-        "order": 1,
-        "width": "3",
-        "height": "1",
-        "emulateClick": false,
-        "className": "",
-        "icon": "square",
-        "iconPosition": "left",
-        "payload": "shutdown",
-        "payloadType": "str",
-        "topic": "",
-        "topicType": "str",
-        "buttonColor": "red",
-        "textColor": "",
-        "iconColor": "",
-        "enableClick": true,
-        "enablePointerdown": false,
-        "pointerdownPayload": "",
-        "pointerdownPayloadType": "str",
-        "enablePointerup": false,
-        "pointerupPayload": "",
-        "pointerupPayloadType": "str",
-        "x": 280,
-        "y": 500,
-        "wires": [
-            [
-                "setTopic"
-            ]
-        ]
-    },
-    {
-        "id": "setTopic",
-        "type": "change",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "set cmd topic",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "assistant/cmd",
-                "tot": "str"
-            }
-        ],
-        "x": 510,
-        "y": 500,
-        "wires": [
-            [
-                "mqttOut"
-            ]
-        ]
-    },
-    {
-        "id": "mqttOut",
-        "type": "mqtt out",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "publish cmd",
-        "topic": "",
-        "qos": "0",
-        "retain": "false",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "mqttBroker1",
-        "x": 750,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "e10f70d7ccd97e4e",
-        "type": "change",
-        "z": "0ea88e2dc42daf85",
-        "g": "f8c84f057bccfbe6",
-        "name": "set state topic",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "assistant/state",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 500,
-        "y": 440,
-        "wires": [
-            [
-                "mqttOut"
-            ]
-        ]
-    },
-    {
-        "id": "sqliteInsert",
-        "type": "sqlite",
-        "z": "0ea88e2dc42daf85",
-        "mydb": "sqlite1",
-        "sql": "INSERT INTO events (ts, topic, source, payload) VALUES (:ts, :topic, :source, :payload);",
-        "name": "INSERT events",
-        "x": 100,
-        "y": 840,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "sqliteInsertIntent",
-        "type": "sqlite",
-        "z": "0ea88e2dc42daf85",
-        "mydb": "sqlite1",
-        "sql": "INSERT INTO intents (ts,intent,actor,room,value,raw) VALUES (?,?,?,?,?,?);",
-        "name": "INSERT intents",
-        "x": 100,
-        "y": 800,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "sqliteSelect",
-        "type": "sqlite",
-        "z": "0ea88e2dc42daf85",
-        "mydb": "sqlite1",
-        "sql": "",
-        "name": "SELECT events",
-        "x": 100,
-        "y": 760,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "influxOut",
-        "type": "influxdb out",
-        "z": "0ea88e2dc42daf85",
-        "influxdb": "influxCfg",
-        "name": "metrics → Influx",
-        "measurement": "assistant_events",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "",
-        "org": "local",
-        "bucket": "assistant",
-        "x": 360,
-        "y": 780,
-        "wires": []
-    },
-    {
-        "id": "influxOutIntent",
-        "type": "influxdb out",
-        "z": "0ea88e2dc42daf85",
-        "influxdb": "influxCfg",
-        "name": "intent metric",
-        "measurement": "assistant_intents",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "",
-        "org": "local",
-        "bucket": "assistant",
-        "x": 350,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "influxQuery",
-        "type": "influxdb in",
-        "z": "0ea88e2dc42daf85",
-        "influxdb": "influxCfg",
-        "name": "Flux: counts by topic (1h)",
-        "query": "from(bucket: \"assistant\")\\n  |> range(start: -1h)\\n  |> filter(fn: (r) => r._measurement == \"assistant_events\" and r._field == \"count\")\\n  |> aggregateWindow(every: 1m, fn: sum)\\n  |> keep(columns: [\"_time\",\"_value\",\"topic\"])",
-        "x": 670,
-        "y": 780,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "mqttAll",
-        "type": "mqtt in",
-        "z": "0ea88e2dc42daf85",
-        "name": "assistant/#",
-        "topic": "assistant/#",
-        "qos": "0",
-        "datatype": "auto",
-        "broker": "mqttBroker1",
-        "nl": false,
-        "rap": false,
-        "inputs": 0,
-        "x": 320,
-        "y": 880,
-        "wires": [
-            [
-                "fnNormalize"
-            ]
-        ]
-    },
-    {
-        "id": "fnNormalize",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "normalize → 2 outputs (sqlite, influx)",
-        "func": "// Input: msg.topic like 'assistant/...' and msg.payload (string or object)\n// Output[0]: to SQLite (INSERT)\n// Output[1]: to Influx (metrics)\n\nlet topic = msg.topic || \"\";\nlet payload = msg.payload;\nlet parsed = null;\nif (typeof payload === 'string') {\n  try { parsed = JSON.parse(payload); } catch(e) { parsed = null; }\n}\n\n// --- SQLite row ---\nconst row = {\n  ts: new Date().toISOString(),\n  topic,\n  source: \"node-red\",\n  payload: (parsed ? JSON.stringify(parsed) : (typeof payload === 'string' ? payload : JSON.stringify(payload)))\n};\nconst sqliteMsg = { ...msg, params: row };\nsqliteMsg.topic = undefined;\n\n// --- Influx point ---\n// Count 1 per message; if payload has latency_ms include it\nlet fields = { count: 1 };\nif (parsed && typeof parsed.latency_ms === 'number') fields.latency_ms = Math.floor(parsed.latency_ms);\nconst influxMsg = {\n  measurement: \"assistant_events\",\n  payload: fields,\n  tags: { topic }\n};\n\nreturn [sqliteMsg, influxMsg];",
-        "outputs": 2,
-        "x": 590,
-        "y": 880,
-        "wires": [
-            [],
-            [
-                "9fc23d4589b1b7fb"
-            ]
-        ]
-    },
-    {
-        "id": "9fc23d4589b1b7fb",
-        "type": "influxdb out",
-        "z": "0ea88e2dc42daf85",
-        "influxdb": "influxCfg",
-        "name": "metrics → Influx",
-        "measurement": "assistant_events",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "",
-        "retentionPolicyV18Flux": "",
-        "org": "local",
-        "bucket": "assistant",
-        "x": 860,
-        "y": 880,
-        "wires": []
-    },
-    {
-        "id": "mqttIntent",
-        "type": "mqtt in",
-        "z": "0ea88e2dc42daf85",
-        "name": "assistant/intent",
-        "topic": "assistant/intent",
-        "qos": "0",
-        "datatype": "auto",
-        "broker": "mqttBroker1",
-        "nl": false,
-        "rap": false,
-        "inputs": 0,
-        "x": 380,
-        "y": 960,
-        "wires": [
-            [
-                "fnIntent"
-            ]
-        ]
-    },
-    {
-        "id": "fnIntent",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "map intent JSON → INSERT",
-        "func": "let j = (typeof msg.payload === 'string') ? JSON.parse(msg.payload) : msg.payload;\nif (!j || !j.intent) return null;\nmsg.params = [ new Date().toISOString(), j.intent || null, j.actor || null, j.room || null,\n               (j.value !== undefined ? Number(j.value) : null), JSON.stringify(j) ];\nreturn msg;",
-        "outputs": 1,
-        "x": 620,
-        "y": 960,
-        "wires": [
-            [
-                "da0bb844fb97c167"
-            ]
-        ]
-    },
-    {
-        "id": "da0bb844fb97c167",
-        "type": "influxdb out",
-        "z": "0ea88e2dc42daf85",
-        "influxdb": "influxCfg",
-        "name": "intent metric",
-        "measurement": "assistant_intents",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "",
-        "retentionPolicyV18Flux": "",
-        "org": "local",
-        "bucket": "assistant",
-        "x": 870,
-        "y": 960,
-        "wires": []
-    },
-    {
-        "id": "txtFilter",
-        "type": "ui-text-input",
-        "z": "0ea88e2dc42daf85",
-        "group": "grpControls",
-        "name": "Filter (intent/text)",
-        "label": "Filter contains",
-        "order": 1,
-        "width": 6,
-        "height": 1,
-        "topic": "",
-        "mode": "text",
-        "x": 230,
-        "y": 1020,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "btnRefresh",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "group": "grpControls",
-        "name": "Refresh logs",
-        "label": "Refresh",
-        "order": 2,
-        "width": 3,
-        "height": 1,
-        "payload": "",
-        "payloadType": "str",
-        "x": 610,
-        "y": 1020,
-        "wires": [
-            [
-                "fnBuildSelect"
-            ]
-        ]
-    },
-    {
-        "id": "fnBuildSelect",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "build SELECT (last 100)",
-        "func": "const filter = (flow.get('filter_text')||'').trim();\nlet sql = \"SELECT id, ts, topic, substr(payload,1,140) AS preview FROM events \";\nlet params = [];\nif (filter) {\n  sql += \"WHERE topic LIKE ? OR payload LIKE ? \";\n  const f = `%${filter}%`; params = [f, f];\n}\nsql += \"ORDER BY ts DESC LIMIT 100\";\nmsg.topic = sql; msg.params = params; return msg;",
-        "outputs": 1,
-        "x": 830,
-        "y": 1020,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "uiTable",
-        "type": "ui-table",
-        "z": "0ea88e2dc42daf85",
-        "group": "grpLogs",
-        "name": "Recent events",
-        "label": "",
-        "order": 1,
-        "width": 12,
-        "height": 8,
-        "maxrows": "",
-        "autocols": true,
-        "showSearch": false,
-        "deselect": true,
-        "selectionType": "none",
-        "columns": [
-            {
-                "title": "ID",
-                "key": "",
-                "keyType": "key",
-                "width": "60"
-            },
-            {
-                "title": "Time",
-                "key": "",
-                "keyType": "key",
-                "width": "180"
-            },
-            {
-                "title": "Topic",
-                "key": "",
-                "keyType": "key",
-                "width": "220"
-            },
-            {
-                "title": "Payload (preview)",
-                "key": "",
-                "keyType": "key",
-                "width": ""
-            }
-        ],
-        "mobileBreakpoint": "sm",
-        "mobileBreakpointType": "defaults",
-        "action": "append",
-        "x": 860,
-        "y": 1100,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "linkFilterIn",
-        "type": "link in",
-        "z": "0ea88e2dc42daf85",
-        "name": "filter_in",
-        "links": [],
-        "x": 745,
-        "y": 1160,
-        "wires": [
-            [
-                "fnStoreFilter"
-            ]
-        ]
-    },
-    {
-        "id": "fnStoreFilter",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "store filter",
-        "func": "flow.set('filter_text', msg.payload||''); return null;",
-        "outputs": 1,
-        "x": 880,
-        "y": 1160,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "btnReloadChart",
-        "type": "ui-button",
-        "z": "0ea88e2dc42daf85",
-        "group": "grpCharts",
-        "name": "Reload chart",
-        "label": "Reload chart",
-        "order": 1,
-        "width": 3,
-        "height": 1,
-        "payload": "",
-        "payloadType": "str",
-        "x": 230,
-        "y": 1080,
-        "wires": [
-            [
-                "3c0d0c7a0db01587"
-            ]
-        ]
-    },
-    {
-        "id": "3c0d0c7a0db01587",
-        "type": "influxdb in",
-        "z": "0ea88e2dc42daf85",
-        "influxdb": "influxCfg",
-        "name": "Flux: counts by topic (1h)",
-        "query": "from(bucket: \"assistant\")\\n  |> range(start: -1h)\\n  |> filter(fn: (r) => r._measurement == \"assistant_events\" and r._field == \"count\")\\n  |> aggregateWindow(every: 1m, fn: sum)\\n  |> keep(columns: [\"_time\",\"_value\",\"topic\"])",
-        "x": 470,
-        "y": 1080,
-        "wires": [
-            [
-                "fnChartFormat"
-            ]
-        ]
-    },
-    {
-        "id": "fnChartFormat",
-        "type": "function",
-        "z": "0ea88e2dc42daf85",
-        "name": "to ui-chart series",
-        "func": "// Convert Influx rows to ui-chart series per topic\nconst rows = msg.payload; // array of points\nconst series = {}; (rows||[]).forEach(p => {\n  const t = p.topic || \"(none)\"; const x = new Date(p._time).getTime(); const y = Number(p._value||0);\n  if (!series[t]) series[t] = []; series[t].push({ x, y });\n});\nmsg.payload = Object.entries(series).map(([name, data]) => ({ series: [name], data: [data] }));\nreturn msg;",
-        "outputs": 1,
-        "x": 240,
-        "y": 1160,
-        "wires": [
-            [
-                "uiChart"
-            ]
-        ]
-    },
-    {
-        "id": "uiChart",
-        "type": "ui-chart",
-        "z": "0ea88e2dc42daf85",
-        "group": "grpCharts",
-        "name": "Messages/min by topic (1h)",
-        "order": 2,
-        "chartType": "line",
-        "removeOlder": "0",
-        "removeOlderUnit": "3600",
-        "removeOlderPoints": "0",
-        "colors": [],
-        "width": 12,
-        "height": 6,
-        "x": 480,
-        "y": 1160,
-        "wires": [
-            []
-        ]
+        "id": "1422cfa039b24723",
+        "type": "tab",
+        "label": "Metrics and state",
+        "disabled": false,
+        "info": "",
+        "env": []
     },
     {
         "id": "mqttBroker1",
@@ -928,77 +36,35 @@
         "cleansession": true
     },
     {
-        "id": "uiGroupLive",
-        "type": "ui-group",
-        "name": "Live Feed",
-        "page": "uiPage1",
-        "width": "12",
-        "height": "3",
-        "order": 2,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default"
+        "id": "uiBase1",
+        "type": "ui-base",
+        "name": "Assistant UI",
+        "path": "/dashboard",
+        "headerContent": "page",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 5,
+        "showDisconnectNotification": true,
+        "allowInstall": true
     },
     {
-        "id": "uiGroupControls",
-        "type": "ui-group",
-        "name": "Controls",
-        "page": "uiPage1",
-        "width": "6",
-        "height": "2",
-        "order": 1,
-        "showTitle": true,
-        "className": "",
-        "visible": "true",
-        "disabled": "false",
-        "groupType": "default"
-    },
-    {
-        "id": "sqlite1",
-        "type": "sqlitedb",
-        "db": "C:\\Users\\andre\\projects\\voice-assistant\\data\\assistant.db",
-        "mode": "RWC"
-    },
-    {
-        "id": "influxCfg",
-        "type": "influxdb",
-        "hostname": "http://localhost:8086",
-        "port": "8086",
-        "protocol": "http",
-        "database": "assistant",
-        "name": "Influx v2",
-        "usetls": false,
-        "tls": "",
-        "influxdbVersion": "2.0",
-        "url": "http://localhost:8086",
-        "timeout": "",
-        "rejectUnauthorized": true
-    },
-    {
-        "id": "grpControls",
-        "type": "ui-group",
-        "name": "Controls",
-        "page": "uiPage1",
-        "width": 6,
-        "order": 1
-    },
-    {
-        "id": "grpLogs",
-        "type": "ui-group",
-        "name": "Logs (SQLite)",
-        "page": "uiPage1",
-        "width": 12,
-        "order": 2
-    },
-    {
-        "id": "grpCharts",
-        "type": "ui-group",
-        "name": "Metrics (InfluxDB)",
-        "page": "uiPage1",
-        "width": 12,
-        "order": 3
+        "id": "4c0f6fb302976c75",
+        "type": "ui-theme",
+        "name": "Assistant theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
     },
     {
         "id": "uiPage1",
@@ -1037,33 +103,973 @@
         "disabled": false
     },
     {
-        "id": "uiBase1",
-        "type": "ui-base",
-        "name": "Assistant UI",
-        "path": "/dashboard",
-        "titleBarStyle": "default"
+        "id": "uiGroupControls",
+        "type": "ui-group",
+        "name": "Controls",
+        "page": "uiPage1",
+        "width": "6",
+        "height": "2",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
     },
     {
-        "id": "4c0f6fb302976c75",
-        "type": "ui-theme",
-        "name": "Assistant theme",
-        "colors": {
-            "surface": "#ffffff",
-            "primary": "#0094ce",
-            "bgPage": "#eeeeee",
-            "groupBg": "#ffffff",
-            "groupOutline": "#cccccc"
-        },
-        "sizes": {
-            "density": "default",
-            "pagePadding": "12px",
-            "groupGap": "12px",
-            "groupBorderRadius": "4px",
-            "widgetGap": "12px"
-        }
+        "id": "uiGroupLive",
+        "type": "ui-group",
+        "name": "Live Feed",
+        "page": "uiPage1",
+        "width": "12",
+        "height": "3",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
     },
     {
-        "id": "2fa1d5749019dacc",
+        "id": "grpLogs",
+        "type": "ui-group",
+        "name": "Logs (SQLite)",
+        "page": "uiPage1",
+        "width": 12,
+        "height": "8",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "grpCharts",
+        "type": "ui-group",
+        "name": "Metrics (InfluxDB)",
+        "page": "uiPage1",
+        "width": 12,
+        "height": "6",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "sqlite1",
+        "type": "sqlitedb",
+        "db": "C:\\Users\\andre\\projects\\voice-assistant\\data\\assistant.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "influxCfg",
+        "type": "influxdb",
+        "hostname": "http://localhost:8086",
+        "port": "8086",
+        "protocol": "http",
+        "database": "assistant",
+        "name": "Influx v2",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://localhost:8086",
+        "timeout": "",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "099e4ec6cfcce731",
+        "type": "exec",
+        "z": "0ea88e2dc42daf85",
+        "command": "cmd.exe",
+        "addpay": "",
+        "append": "/C \"python C:\\Users\\andre\\projects\\voice-assistant\\install_assistant.py\"",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "installer",
+        "x": 380,
+        "y": 140,
+        "wires": [
+            [
+                "d157398c1f7cc1b7"
+            ],
+            [
+                "0f9cd3e663b6c311"
+            ],
+            [
+                "b4f537d17d535b65"
+            ]
+        ],
+        "info": "Install the required dependencies and libraries"
+    },
+    {
+        "id": "d157398c1f7cc1b7",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "standard out",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "81d17b40d9ce940c",
+        "type": "inject",
+        "z": "0ea88e2dc42daf85",
+        "name": "Install",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "099e4ec6cfcce731"
+            ]
+        ]
+    },
+    {
+        "id": "0f9cd3e663b6c311",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "standard err",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "b4f537d17d535b65",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "exit code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "a458d13aaee86b54",
+        "type": "inject",
+        "z": "0ea88e2dc42daf85",
+        "name": "Create tables",
+        "props": [
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "once": false,
+        "topic": "",
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "fab4c75a6d7223c9"
+            ]
+        ]
+    },
+    {
+        "id": "fab4c75a6d7223c9",
+        "type": "function",
+        "z": "0ea88e2dc42daf85",
+        "name": "DDL --> events + intents",
+        "func": "msg._sql = [\n  \"CREATE TABLE IF NOT EXISTS events( id INTEGER PRIMARY KEY, ts DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, topic TEXT, payload TEXT );\",\n];\nreturn [ msg._sql.map(s => ({...msg, topic: s})) ];",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 280,
+        "wires": [
+            [
+                "58426d21cde04ae1"
+            ]
+        ]
+    },
+    {
+        "id": "58426d21cde04ae1",
+        "type": "sqlite",
+        "z": "0ea88e2dc42daf85",
+        "mydb": "sqlite1",
+        "sql": "",
+        "name": "SQLite EXEC",
+        "x": 620,
+        "y": 280,
+        "wires": [
+            [
+                "9b87f8eff907dd80"
+            ]
+        ]
+    },
+    {
+        "id": "9b87f8eff907dd80",
+        "type": "debug",
+        "z": "0ea88e2dc42daf85",
+        "name": "SQLite result",
+        "active": true,
+        "tosidebar": true,
+        "complete": "true",
+        "x": 810,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8dbf105438a71173",
+        "type": "ui-button",
+        "z": "5475c741fca88cb8",
+        "group": "uiGroupControls",
+        "name": "Start Assistant",
+        "label": "Start Assistant",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "className": "",
+        "icon": "play",
+        "iconPosition": "left",
+        "payload": "starting",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 260,
+        "y": 100,
+        "wires": [
+            [
+                "f7ee53e7038628dd",
+                "fe43213bac52df85"
+            ]
+        ]
+    },
+    {
+        "id": "f7ee53e7038628dd",
+        "type": "exec",
+        "z": "5475c741fca88cb8",
+        "command": "cmd.exe",
+        "addpay": "kill",
+        "append": "/C \"C:\\Users\\andre\\projects\\voice-assistant\\venv\\Scripts\\python.exe C:\\Users\\andre\\projects\\voice-assistant\\main.py\"",
+        "useSpawn": "true",
+        "timer": "",
+        "winHide": false,
+        "name": "Assistant",
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "7f561dcfaf34a4d5"
+            ],
+            [
+                "afe72f28c1e73104"
+            ],
+            [
+                "b567cf3d4b731405"
+            ]
+        ]
+    },
+    {
+        "id": "7f561dcfaf34a4d5",
+        "type": "debug",
+        "z": "5475c741fca88cb8",
+        "name": "standard out",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "afe72f28c1e73104",
+        "type": "debug",
+        "z": "5475c741fca88cb8",
+        "name": "standard err",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b567cf3d4b731405",
+        "type": "debug",
+        "z": "5475c741fca88cb8",
+        "name": "exit code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "53afc0ece737d11c",
+        "type": "ui-button",
+        "z": "5475c741fca88cb8",
+        "group": "uiGroupControls",
+        "name": "Stop Assistant",
+        "label": "Stop Assistant",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "className": "",
+        "icon": "square",
+        "iconPosition": "left",
+        "payload": "shutdown",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "red",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 260,
+        "y": 200,
+        "wires": [
+            [
+                "90c39862ca720d8e"
+            ]
+        ]
+    },
+    {
+        "id": "90c39862ca720d8e",
+        "type": "change",
+        "z": "5475c741fca88cb8",
+        "name": "set cmd topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "assistant/cmd",
+                "tot": "str"
+            }
+        ],
+        "x": 490,
+        "y": 200,
+        "wires": [
+            [
+                "b40b50813a8c95e1"
+            ]
+        ]
+    },
+    {
+        "id": "b40b50813a8c95e1",
+        "type": "mqtt out",
+        "z": "5475c741fca88cb8",
+        "name": "publish cmd",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqttBroker1",
+        "x": 730,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "fe43213bac52df85",
+        "type": "change",
+        "z": "5475c741fca88cb8",
+        "name": "set state topic",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "assistant/state",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 160,
+        "wires": [
+            [
+                "b40b50813a8c95e1"
+            ]
+        ]
+    },
+    {
+        "id": "sqliteInsert",
+        "type": "sqlite",
+        "z": "1422cfa039b24723",
+        "mydb": "sqlite1",
+        "sqlquery": "prepared",
+        "sql": "INSERT INTO events (ts, topic, payload) VALUES (?, ?, ?);",
+        "name": "INSERT events",
+        "x": 700,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "sqliteSelect",
+        "type": "sqlite",
+        "z": "1422cfa039b24723",
+        "mydb": "sqlite1",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT ts, topic, substr(payload,1,200) AS preview FROM events ORDER BY ts DESC LIMIT 10",
+        "name": "SELECT events",
+        "x": 620,
+        "y": 280,
+        "wires": [
+            [
+                "720cda7e6d577ba2"
+            ]
+        ]
+    },
+    {
+        "id": "mqttAll",
+        "type": "mqtt in",
+        "z": "1422cfa039b24723",
+        "name": "assistant/#",
+        "topic": "assistant/#",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqttBroker1",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 140,
+        "y": 140,
+        "wires": [
+            [
+                "fnNormalize"
+            ]
+        ]
+    },
+    {
+        "id": "fnNormalize",
+        "type": "function",
+        "z": "1422cfa039b24723",
+        "name": "normalize --> 2 outputs (sqlite, influx)",
+        "func": "// Input: msg.topic like 'assistant/...' and msg.payload (string or object)\n// Output[0]: to SQLite (INSERT)\n// Output[1]: to Influx (metrics)\n\nlet originalTopic = msg.topic || \"\";\nlet payload = msg.payload || \"\";\nif (typeof payload === 'object') {\n  try {\n    payload = JSON.stringify(payload);\n  } catch (e) {\n    payload = \"\";\n  }\n}\n\n// Normalize payload to string\nconst topic  = \"INSERT INTO events (ts, topic, payload) VALUES (?,?,?)\";\nconst params = [ new Date().toISOString(), originalTopic, payload ];\nconst sqliteMsg = { topic: topic, params: params };\n\n// --- Influx point ---\n// Count 1 per message; if payload has latency_ms include it\nlet fields = { count: 1 };\nfields.payload = payload;\nconst influxMsg = {\n  measurement: \"assistant_events\",\n  payload: fields,\n  tags: { originalTopic }\n};\n\nreturn [sqliteMsg, influxMsg];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 140,
+        "wires": [
+            [
+                "sqliteInsert"
+            ],
+            [
+                "9fc23d4589b1b7fb"
+            ]
+        ]
+    },
+    {
+        "id": "9fc23d4589b1b7fb",
+        "type": "influxdb out",
+        "z": "1422cfa039b24723",
+        "influxdb": "influxCfg",
+        "name": "metrics --> Influx",
+        "measurement": "assistant_events",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "",
+        "retentionPolicyV18Flux": "",
+        "org": "local",
+        "bucket": "assistant",
+        "x": 710,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "btnRefresh",
+        "type": "ui-button",
+        "z": "1422cfa039b24723",
+        "group": "grpLogs",
+        "name": "Refresh logs",
+        "label": "Refresh",
+        "order": 2,
+        "width": 3,
+        "height": 1,
+        "emulateClick": false,
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 150,
+        "y": 280,
+        "wires": [
+            [
+                "fnBuildSelect"
+            ]
+        ]
+    },
+    {
+        "id": "fnBuildSelect",
+        "type": "function",
+        "z": "1422cfa039b24723",
+        "name": "build SELECT (last 100)",
+        "func": "const filter = (flow.get('filter_text')||'').trim();\nlet sql = \"SELECT id, ts, topic, substr(payload,1,140) AS preview FROM events \";\nlet params = [];\nif (filter) {\n  sql += \"WHERE topic LIKE ? OR payload LIKE ? \";\n  const f = `%${filter}%`; params = [f, f];\n}\nsql += \"ORDER BY ts DESC LIMIT 100\";\nmsg.topic = sql; msg.params = params; return msg;",
+        "outputs": 1,
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "sqliteSelect"
+            ]
+        ]
+    },
+    {
+        "id": "3c0d0c7a0db01587",
+        "type": "influxdb in",
+        "z": "1422cfa039b24723",
+        "influxdb": "influxCfg",
+        "name": "Flux: counts by topic (1h)",
+        "query": "from(bucket: \"assistant\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"assistant_events\" and r._field == \"count\")\n  |> aggregateWindow(every: 1m, fn: sum)\n  |> keep(columns: [\"_time\",\"_value\",\"topic\"])\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "local",
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "fnChartFormat"
+            ]
+        ]
+    },
+    {
+        "id": "fnChartFormat",
+        "type": "function",
+        "z": "1422cfa039b24723",
+        "name": "to ui-chart series",
+        "func": "const rows = Array.isArray(msg.payload) ? msg.payload : [];\nconst byTopic = {};\nfor (const p of rows) {\n  const t = p.topic || \"(none)\";\n  (byTopic[t] ||= []).push({ x: new Date(p._time).getTime(), y: Number(p._value || 0) });\n}\nObject.values(byTopic).forEach(a => a.sort((a,b)=>a.x-b.x));\n\nmsg.payload = Object.entries(byTopic).map(([name, data]) => ({\n  series: [name],\n  data: [data]\n}));\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 220,
+        "wires": [
+            [
+                "uiChart"
+            ]
+        ]
+    },
+    {
+        "id": "uiChart",
+        "type": "ui-chart",
+        "z": "1422cfa039b24723",
+        "group": "grpCharts",
+        "name": "Messages/min by topic (1h)",
+        "label": "",
+        "order": 2,
+        "chartType": "line",
+        "category": "payload",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "",
+        "yAxisPropertyType": "property",
+        "ymin": "",
+        "ymax": "",
+        "bins": "",
+        "action": "replace",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": "",
+        "showLegend": true,
+        "removeOlder": "0",
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "0",
+        "colors": [
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 12,
+        "height": 6,
+        "className": "",
+        "interpolation": "linear",
+        "x": 860,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d58dc2ee07a0afcd",
+        "type": "inject",
+        "z": "1422cfa039b24723",
+        "name": "testmsg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "assistant/test",
+        "payload": "this is a test",
+        "payloadType": "str",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "fnNormalize"
+            ]
+        ]
+    },
+    {
+        "id": "720cda7e6d577ba2",
+        "type": "ui-table",
+        "z": "1422cfa039b24723",
+        "group": "grpLogs",
+        "name": "Recent events",
+        "label": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "maxrows": "5",
+        "passthru": false,
+        "autocols": false,
+        "showSearch": false,
+        "deselect": false,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "ID",
+                "key": "id",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Timestamp",
+                "key": "ts",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Topic",
+                "key": "topic",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Payload (preview)",
+                "key": "preview",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            }
+        ],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 840,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "33ccdef56ee50448",
+        "type": "ui-button",
+        "z": "1422cfa039b24723",
+        "group": "grpCharts",
+        "name": "Refresh metrics",
+        "label": "Refresh",
+        "order": 0,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "3c0d0c7a0db01587"
+            ]
+        ]
+    },
+    {
+        "id": "f6f37d553295141f",
+        "type": "mqtt in",
+        "z": "1422cfa039b24723",
+        "name": "State",
+        "topic": "assistant/state",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "mqttBroker1",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 130,
+        "y": 360,
+        "wires": [
+            [
+                "b56dbb28454932ad"
+            ]
+        ]
+    },
+    {
+        "id": "b56dbb28454932ad",
+        "type": "ui-text",
+        "z": "1422cfa039b24723",
+        "group": "uiGroupLive",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "State",
+        "label": "State",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 310,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "9d64c058877fa2d0",
+        "type": "mqtt in",
+        "z": "1422cfa039b24723",
+        "name": "Transcript",
+        "topic": "assistant/stt",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqttBroker1",
+        "inputs": 0,
+        "x": 460,
+        "y": 360,
+        "wires": [
+            [
+                "d93d552f7a925fc5"
+            ]
+        ]
+    },
+    {
+        "id": "d93d552f7a925fc5",
+        "type": "ui-text",
+        "z": "1422cfa039b24723",
+        "group": "uiGroupLive",
+        "order": 2,
+        "width": 12,
+        "height": 1,
+        "name": "Heard",
+        "label": "Heard",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 610,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "8cda088f3aa53097",
+        "type": "mqtt in",
+        "z": "1422cfa039b24723",
+        "name": "Output",
+        "topic": "assistant/llm_chunk",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "mqttBroker1",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 750,
+        "y": 360,
+        "wires": [
+            [
+                "d621f87b86ca074c"
+            ]
+        ]
+    },
+    {
+        "id": "d621f87b86ca074c",
+        "type": "ui-text",
+        "z": "1422cfa039b24723",
+        "group": "uiGroupLive",
+        "order": 3,
+        "width": 12,
+        "height": "4",
+        "name": "Speaking",
+        "label": "Speaking",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 920,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "ba5a58cd7310b82e",
         "type": "global-config",
         "env": [],
         "modules": {
