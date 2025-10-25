@@ -2,7 +2,7 @@ import time
 from resource_watcher import monitor_resources
 from mqtt_bridge import publish
 
-WAKE_WORD = "assistant"
+WAKE_WORD = "wake up"
 
 @monitor_resources("STT", interval=0.5)
 def transcribe(stt_model, wav_path):

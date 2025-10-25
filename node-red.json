@@ -366,7 +366,7 @@
         "className": "",
         "icon": "play",
         "iconPosition": "left",
-        "payload": "starting",
+        "payload": "start",
         "payloadType": "str",
         "topic": "",
         "topicType": "str",
@@ -385,7 +385,8 @@
         "wires": [
             [
                 "f7ee53e7038628dd",
-                "fe43213bac52df85"
+                "90c39862ca720d8e",
+                "9aa10f3a434af680"
             ]
         ]
     },
@@ -494,7 +495,7 @@
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
         "x": 260,
-        "y": 200,
+        "y": 220,
         "wires": [
             [
                 "90c39862ca720d8e"
@@ -515,8 +516,8 @@
                 "tot": "str"
             }
         ],
-        "x": 490,
-        "y": 200,
+        "x": 470,
+        "y": 220,
         "wires": [
             [
                 "b40b50813a8c95e1"
@@ -527,7 +528,7 @@
         "id": "b40b50813a8c95e1",
         "type": "mqtt out",
         "z": "5475c741fca88cb8",
-        "name": "publish cmd",
+        "name": "publish",
         "topic": "",
         "qos": "0",
         "retain": "false",
@@ -537,16 +538,23 @@
         "correl": "",
         "expiry": "",
         "broker": "mqttBroker1",
-        "x": 730,
-        "y": 200,
+        "x": 720,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "fe43213bac52df85",
+        "id": "9aa10f3a434af680",
         "type": "change",
         "z": "5475c741fca88cb8",
-        "name": "set state topic",
+        "name": "set started payload",
         "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "started",
+                "tot": "str"
+            },
             {
                 "t": "set",
                 "p": "topic",
@@ -560,7 +568,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 480,
+        "x": 490,
         "y": 160,
         "wires": [
             [
@@ -623,7 +631,7 @@
         "type": "function",
         "z": "1422cfa039b24723",
         "name": "normalize --> 2 outputs (sqlite, influx)",
-        "func": "// Input: msg.topic like 'assistant/...' and msg.payload (string or object)\n// Output[0]: to SQLite (INSERT)\n// Output[1]: to Influx (metrics)\n\nlet originalTopic = msg.topic || \"\";\nlet payload = msg.payload || \"\";\nif (typeof payload === 'object') {\n  try {\n    payload = JSON.stringify(payload);\n  } catch (e) {\n    payload = \"\";\n  }\n}\n\n// Normalize payload to string\nconst topic  = \"INSERT INTO events (ts, topic, payload) VALUES (?,?,?)\";\nconst params = [ new Date().toISOString(), originalTopic, payload ];\nconst sqliteMsg = { topic: topic, params: params };\n\n// --- Influx point ---\n// Count 1 per message; if payload has latency_ms include it\nlet fields = { count: 1 };\nfields.payload = payload;\nconst influxMsg = {\n  measurement: \"assistant_events\",\n  payload: fields,\n  tags: { originalTopic }\n};\n\nreturn [sqliteMsg, influxMsg];",
+        "func": "// Input: msg.topic like 'assistant/...' and msg.payload (string or object)\n// Output[0]: to SQLite (INSERT)\n// Output[1]: to Influx (metrics)\n\nlet originalTopic = msg.topic || \"\";\nlet payload = msg.payload || \"\";\nif (typeof payload === 'object') {\n  try {\n    payload = JSON.stringify(payload);\n  } catch (e) {\n    payload = \"\";\n  }\n}\n\n// Normalize payload to string\nconst topic  = \"INSERT INTO events (ts, topic, payload) VALUES (?,?,?)\";\nconst params = [ new Date().toISOString(), originalTopic, payload ];\nconst sqliteMsg = { topic: topic, params: params };\n\n// --- Influx point ---\n// Count 1 per message\nconst influxMsg = {\n  measurement: \"assistant_events\",\n  payload: { topic: originalTopic }\n};\nreturn [sqliteMsg, influxMsg];",
         "outputs": 2,
         "timeout": "",
         "noerr": 0,
@@ -637,27 +645,9 @@
                 "sqliteInsert"
             ],
             [
-                "9fc23d4589b1b7fb",
-                "ec4e562737327975"
+                "15989f5ae6540b66"
             ]
         ]
-    },
-    {
-        "id": "9fc23d4589b1b7fb",
-        "type": "influxdb out",
-        "z": "1422cfa039b24723",
-        "influxdb": "influxCfg",
-        "name": "metrics --> Influx",
-        "measurement": "assistant_events",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "",
-        "retentionPolicyV18Flux": "",
-        "org": "local",
-        "bucket": "assistant",
-        "x": 710,
-        "y": 160,
-        "wires": []
     },
     {
         "id": "btnRefresh",
@@ -716,7 +706,7 @@
         "z": "1422cfa039b24723",
         "influxdb": "influxCfg",
         "name": "Flux: counts by topic (1h)",
-        "query": "from(bucket: \"assistant\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"assistant_events\" and r._field == \"count\")\n  |> aggregateWindow(every: 1m, fn: sum)\n  |> keep(columns: [\"_time\",\"_value\",\"topic\"])\n",
+        "query": "from(bucket: \"assistant\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"assistant_events\" and r._field == \"topic\")\n  |> map(fn: (r) => ({ r with topicStr: string(v: r._value) }))\n  |> group(columns: [\"topicStr\"])\n  |> aggregateWindow(every: 1m, fn: count, createEmpty: true)\n  |> fill(value: 0)\n  |> keep(columns: [\"_time\",\"_value\",\"topicStr\"])\n",
         "rawOutput": false,
         "precision": "",
         "retentionPolicy": "",
@@ -734,7 +724,7 @@
         "type": "function",
         "z": "1422cfa039b24723",
         "name": "to ui-chart series",
-        "func": "// Accept single row or array from Influx\nconst rows = Array.isArray(msg.payload) ? msg.payload\n            : (msg.payload && typeof msg.payload === \"object\" ? [msg.payload] : []);\n\n// Group by topic and map to {x,y}\nconst byTopic = {};\nfor (const p of rows) {\n  const t = p.topic || \"(none)\";\n  const x = new Date(p._time).getTime();\n  const y = Number(p._value || 0);\n  if (!Number.isFinite(y)) continue;\n  (byTopic[t] ||= []).push({ x, y });\n}\n// Sort by time\nObject.values(byTopic).forEach(a => a.sort((a,b)=>a.x - b.x));\n\n// Preformatted series for ui-chart\nmsg.payload = Object.entries(byTopic).map(([name, data]) => ({\n  series: [name],\n  data: [data]\n}));\nreturn msg;",
+        "func": "// Accept single row or array from Influx\nconst rows = Array.isArray(msg.payload)\n  ? msg.payload\n  : (msg.payload && typeof msg.payload === \"object\" ? [msg.payload] : []);\n\nmsg.payload = rows.map(p => ({\n  series: p.topicStr || p.topic || \"(none)\",\n  x: new Date(p._time).getTime(),\n  y: Number(p._value || 0)\n}));\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -745,8 +735,7 @@
         "y": 220,
         "wires": [
             [
-                "26fd9d4f76db079e",
-                "6bc19be01883d742"
+                "95d2f1dd2499520d"
             ]
         ]
     },
@@ -768,7 +757,7 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "assistant/test",
+        "topic": "assistant/test2",
         "payload": "this is a test",
         "payloadType": "str",
         "x": 150,
@@ -1009,27 +998,45 @@
         "wires": []
     },
     {
-        "id": "26fd9d4f76db079e",
+        "id": "15989f5ae6540b66",
+        "type": "influxdb out",
+        "z": "1422cfa039b24723",
+        "influxdb": "influxCfg",
+        "name": "Metrics out",
+        "measurement": "assistant_events",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "local",
+        "bucket": "assistant",
+        "x": 690,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "95d2f1dd2499520d",
         "type": "ui-chart",
         "z": "1422cfa039b24723",
         "group": "grpCharts",
         "name": "",
         "label": "Metrics chart",
         "order": 9007199254740991,
-        "chartType": "line",
-        "category": "topic",
-        "categoryType": "msg",
+        "chartType": "area",
+        "category": "series",
+        "categoryType": "property",
         "xAxisLabel": "",
-        "xAxisProperty": "",
-        "xAxisPropertyType": "timestamp",
+        "xAxisProperty": "x",
+        "xAxisPropertyType": "property",
         "xAxisType": "time",
         "xAxisFormat": "",
         "xAxisFormatType": "auto",
         "xmin": "",
         "xmax": "",
         "yAxisLabel": "",
-        "yAxisProperty": "payload",
-        "yAxisPropertyType": "msg",
+        "yAxisProperty": "y",
+        "yAxisPropertyType": "property",
         "ymin": "",
         "ymax": "",
         "bins": 10,
@@ -1071,39 +1078,7 @@
         ]
     },
     {
-        "id": "ec4e562737327975",
-        "type": "debug",
-        "z": "1422cfa039b24723",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 610,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "6bc19be01883d742",
-        "type": "debug",
-        "z": "1422cfa039b24723",
-        "name": "debug 2",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 920,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "b429ddeb3dc6d8b3",
+        "id": "8bf661ce4bad832c",
         "type": "global-config",
         "env": [],
         "modules": {

@@ -46,3 +46,8 @@ def audio_player():
             print(f"[AUDIO PLAYER] Top-level exception: {e}")
             audio_done_event.set()
         time.sleep(0.3)
+
+def clean_queue():
+    while not audio_queue.empty():
+        file = audio_queue.get()
+        os.remove(file)
