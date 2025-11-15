@@ -17,4 +17,4 @@ An offline, privacy-preserving voice assistant that runs entirely on local hardw
 
 ## Running with Node-RED
 
-After verifying the installation of the prerequisites, start Node-RED locally and access the Flows Dashboard. In the repository there a file `nore-red.json`, which contains three flows. Once imported, run the first flow to install the requirements. Then, go to `localhost:8088/dashboard` to access the assistant dashboard and use the controls to start/stop the assistant.
+After verifying the installation of the prerequisites, start Node-RED locally and access the Flows Dashboard. In the repository there a file `nore-red.json`, which contains three flows. Once imported, run the first flow to install the requirements. Then, go to `localhost:1880/dashboard` to access the assistant dashboard and use the controls to start/stop the assistant.
